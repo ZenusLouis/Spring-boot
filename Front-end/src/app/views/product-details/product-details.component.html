@@ -1,0 +1,41 @@
+<app-notification [message]="notificationMessage" [type]="notificationType" [show]="showNotification">
+</app-notification>
+<div class="font-sans flex justify-center dark:bg-gray-900 dark:text-gray-100">
+  <div class="p-4 lg:max-w-7xl max-w-xl max-lg:mx-auto">
+    <!-- Main Product Section -->
+    <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
+      <div class="min-h-[500px] min-w-[650px] lg:col-span-3 bg-gradient-to-tr from-[#F8C794] via-[#FFE0B5] to-[#FFF2D7] rounded-lg w-full lg:sticky top-0 text-center p-6 flex items-center justify-center dark:bg-gradient-to-tr dark:from-[#333333] dark:via-[#555555] dark:to-[#777777]">
+        <img *ngIf="product" [src]="getImageUrl(product!)" alt="{{ product.pro_name }}" class="max-h-[500px] max-w-[500px] object-cover rounded-lg shadow-lg dark:shadow-gray-800">
+      </div>
+      <div class="lg:col-span-2">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 first-letter:uppercase">{{ product?.pro_name }}</h2>
+        <div class="mt-2">
+          <p class="text-2xl font-semibold text-orange-500 dark:text-orange-400">${{ product?.pro_price }}</p>
+        </div>
+        <hr class="my-4 border-gray-200 dark:border-gray-700" />
+        <div class="mt-4">
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Product Information</h3>
+          <p class="text-gray-600 dark:text-gray-400 mt-2 leading-relaxed first-letter:uppercase">{{ product?.pro_des }}</p>
+        </div>
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Details</h3>
+          <ul class="space-y-2 mt-2 text-gray-600 dark:text-gray-400">
+            <li><strong>Category:</strong> {{ category?.cate_name }}</li>
+            <li><strong>Stock:</strong> {{ product?.pro_stock }} available</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 flex items-center">
+          <label class="mr-2 dark:text-gray-300" for="quantity">Quantity:</label>
+          <input type="number" id="quantity" [(ngModel)]="quantity" min="1" 
+                 class="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 w-20 dark:bg-gray-800 dark:text-gray-100" />
+        </div>
+        <button (click)="addToCart()" type="button"
+                class="w-full mt-8 px-6 py-3 bg-orange-400 hover:bg-orange-500 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm font-semibold rounded-md"
+                [disabled]="!product">
+          {{ product?.pro_stock === 0 ? 'Out of Stock' : 'Add to cart' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

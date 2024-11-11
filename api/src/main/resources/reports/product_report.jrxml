@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="product_report"
+              pageWidth="595" pageHeight="842"
+              whenNoDataType="NoPages"
+              columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+    <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+    <property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+    <property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+    <property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="false"/>
+
+    <!-- SQL Query for PostgreSQL DataSource -->
+    <queryString>
+        <![CDATA[
+            SELECT p.pro_id, p.pro_name, p.pro_des, p.pro_stock, p.pro_price,
+                   p.pro_status, p.created_at AS createdAt, c.cate_name AS category_name
+            FROM Products p
+            JOIN Categories c ON p.cate_id = c.cate_id
+        ]]>
+    </queryString>
+
+    <!-- Fields Definitions -->
+    <field name="pro_id" class="java.lang.Long"/>
+    <field name="pro_name" class="java.lang.String"/>
+    <field name="pro_des" class="java.lang.String"/>
+    <field name="pro_stock" class="java.lang.Integer"/>
+    <field name="pro_price" class="java.lang.Double"/>
+    <field name="pro_status" class="java.lang.Integer"/>
+    <field name="createdAt" class="java.sql.Timestamp"/>
+    <field name="category_name" class="java.lang.String"/>
+
+    <!-- Report Title -->
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Product Report]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <!-- Column Headers -->
+    <columnHeader>
+        <band height="30">
+            <!-- ID Column -->
+            <rectangle>
+                <reportElement x="0" y="0" width="50" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="0" y="5" width="50" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+
+            <!-- Name Column -->
+            <rectangle>
+                <reportElement x="50" y="0" width="100" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="50" y="5" width="100" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Name]]></text>
+            </staticText>
+
+            <!-- Description Column -->
+            <rectangle>
+                <reportElement x="150" y="0" width="100" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="150" y="5" width="100" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Description]]></text>
+            </staticText>
+
+            <!-- Stock Column -->
+            <rectangle>
+                <reportElement x="250" y="0" width="50" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="250" y="5" width="50" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Stock]]></text>
+            </staticText>
+
+            <!-- Price Column -->
+            <rectangle>
+                <reportElement x="300" y="0" width="50" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="300" y="5" width="50" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Price]]></text>
+            </staticText>
+
+            <!-- Status Column -->
+            <rectangle>
+                <reportElement x="350" y="0" width="50" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="350" y="5" width="50" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+
+            <!-- Category Column -->
+            <rectangle>
+                <reportElement x="400" y="0" width="80" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="400" y="5" width="80" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Category]]></text>
+            </staticText>
+
+            <!-- Created At Column -->
+            <rectangle>
+                <reportElement x="480" y="0" width="75" height="30"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="480" y="5" width="75" height="20"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Created At]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <!-- Detail Row with Borders -->
+    <detail>
+        <band height="20">
+            <!-- ID Field with border -->
+            <rectangle>
+                <reportElement x="0" y="0" width="50" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="0" y="0" width="50" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{pro_id}]]></textFieldExpression>
+            </textField>
+
+            <!-- Name Field with border -->
+            <rectangle>
+                <reportElement x="50" y="0" width="100" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="50" y="0" width="100" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{pro_name}]]></textFieldExpression>
+            </textField>
+
+            <!-- Description Field with border -->
+            <rectangle>
+                <reportElement x="150" y="0" width="100" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="150" y="0" width="100" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{pro_des}]]></textFieldExpression>
+            </textField>
+
+            <!-- Stock Field with border -->
+            <rectangle>
+                <reportElement x="250" y="0" width="50" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="250" y="0" width="50" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{pro_stock}]]></textFieldExpression>
+            </textField>
+
+            <!-- Price Field with border -->
+            <rectangle>
+                <reportElement x="300" y="0" width="50" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="300" y="0" width="50" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{pro_price}]]></textFieldExpression>
+            </textField>
+
+            <!-- Status Field with border -->
+            <rectangle>
+                <reportElement x="350" y="0" width="50" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="350" y="0" width="50" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{pro_status}]]></textFieldExpression>
+            </textField>
+
+            <!-- Category Field with border -->
+            <rectangle>
+                <reportElement x="400" y="0" width="80" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="400" y="0" width="80" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
+            </textField>
+
+            <!-- Created At Field with border -->
+            <rectangle>
+                <reportElement x="480" y="0" width="75" height="20"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </rectangle>
+            <textField pattern="dd/MM/yy HH:mm">
+                <reportElement x="480" y="0" width="75" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yy HH:mm").format($F{createdAt})]]>
+                </textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

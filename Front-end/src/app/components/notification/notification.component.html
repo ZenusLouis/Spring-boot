@@ -1,0 +1,53 @@
+<div *ngIf="show" id="popup-modal" tabindex="-1"
+  class="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black bg-opacity-50">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button type="button"
+        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center"
+        (click)="show = false">
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="p-4 md:p-5 text-center">
+        <div class="icon">
+          <ng-container *ngIf="icon === 'checkmark'">
+            <div class="w4rAnimated_checkmark">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10"
+                  cx="65.1" cy="65.1" r="62.1" />
+                <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
+                  stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+              </svg>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="icon === 'error'">
+            <div class="w4rAnimated_error">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10"
+                  cx="65.1" cy="65.1" r="62.1" />
+                <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round"
+                  stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3" />
+                <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round"
+                  stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2" />
+              </svg>
+            </div>
+          </ng-container>
+        </div>
+        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{{ message }}</h3>
+        <button type="button"
+          class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+          *ngIf="icon === 'checkmark'" (click)="closeModal()">
+          OK
+        </button>
+        <button type="button"
+          class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+          *ngIf="icon === 'error'" (click)="closeModal()">
+          Retry
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

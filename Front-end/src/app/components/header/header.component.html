@@ -1,0 +1,63 @@
+<section class="flex items-center p-4 bg-gray-100 dark:bg-gray-900 h-16">
+  <div class="text-xl font-bold text-gray-800 dark:text-gray-200">Admin Dashboard</div>
+
+  <div class="flex gap-4 absolute right-0 px-2 mr-10 items-center">
+    <!-- Dark Mode Toggle Switch -->
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" class="sr-only" (change)="toggleDarkMode()" />
+      <div class="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full transition-colors toggle-bg"></div>
+      <span
+        class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transform dark:translate-x-full transition-transform"></span>
+    </label>
+
+    <!-- Profile Section with Dropdown Menu -->
+    <div class="relative" (click)="toggleDropdown()">
+      <!-- Profile Image and Name -->
+      <div class="flex items-center space-x-2 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" id="user" x="0" y="0"
+          style="enable-background:new 0 0 16 16" version="1.1" viewBox="0 0 16 16" class="w-10">
+          <path id="path7"
+            d="M8 .986A7.022 7.022 0 0 0 .986 8c0 1.874.73 3.635 2.055 4.959A6.965 6.965 0 0 0 8 15.014 7.022 7.022 0 0 0 15.014 8 7.022 7.022 0 0 0 8 .986zm0 1A6.021 6.021 0 0 1 14.014 8a5.984 5.984 0 0 1-1.606 4.074 5.836 5.836 0 0 0-2.564-1.754 2.999 2.999 0 0 0 1.11-2.326A2.997 2.997 0 0 0 7.94 5.006a2.997 2.997 0 0 0-2.988 3.012c0 .929.436 1.75 1.104 2.298a5.846 5.846 0 0 0-2.526 1.698A5.964 5.964 0 0 1 1.986 8 6.021 6.021 0 0 1 8 1.986zm-.035 4.02c1.097 0 1.988.892 1.988 2.012A1.988 1.988 0 0 1 8.03 10c-.029 0-.057-.006-.086-.006-.025 0-.049.005-.074.006a1.994 1.994 0 0 1-1.916-2.006c0-1.096.892-1.988 2.012-1.988zm-.096 4.992c.024.001.048.008.072.008h.024c.022 0 .04-.007.062-.008a4.84 4.84 0 0 1 3.643 1.752A5.963 5.963 0 0 1 8 14.014a5.965 5.965 0 0 1-3.742-1.31 4.848 4.848 0 0 1 3.611-1.706z"
+            style="fill:#231f20;stroke:none"></path>
+        </svg>
+        <span *ngIf="isAuthenticated" class="text-lg text-gray-800 dark:text-gray-200">{{ userInfo?.username }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-800 dark:text-gray-200" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+
+      <!-- Dropdown Menu -->
+      <div *ngIf="isDropdownOpen"
+        class="absolute -right-6 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10">
+        <a href="#"
+          class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 4.5V5m0 14v.5M5.5 12H5m13.5 0h-.5M8.15 7.85l.35.35m6.3 6.3l.35.35M4.73 4.73l.35.35m14.6 14.6l-.35-.35M7.85 16.15l-.35-.35m6.3-6.3l-.35-.35M12 8.25a3.75 3.75 0 110 7.5 3.75 3.75 0 010-7.5z" />
+          </svg>
+          Settings
+        </a>
+        <a href="#"
+          class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M5.121 20a1.5 1.5 0 001.06-.44l.88-.88a1.5 1.5 0 00-.44-2.58 6.75 6.75 0 119.9 0 1.5 1.5 0 00-.44 2.58l.88.88a1.5 1.5 0 001.06.44H18a9 9 0 10-13.656 0h.777zM10.5 9.75a2.25 2.25 0 104.5 0 2.25 2.25 0 00-4.5 0z" />
+          </svg>
+          Profile
+        </a>
+        <a (click)="logout()"
+          class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m5 4v1m0-14V3m-7 5v8m14-8v8m-1 1H6m6-1V5" />
+          </svg>
+          Logout
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

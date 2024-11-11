@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak-db
+      DB_DATABASE: test
+      DB_USER: test
+      DB_PASSWORD: test
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      PROXY_ADDRESS_FORWARDING: true
+      JAVA_OPTS_APPEND: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak-providers:/opt/keycloak/providers
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
+    networks:
+      - my-network
+
+  keycloak-db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test"]
+      interval: 10s
+      retries: 5
+
+  application-db:
+    image: postgres:17
+    container_name: application-db
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432:5432"
+    volumes:
+      - application_db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  keycloak_db_data:
+  application_db_data:

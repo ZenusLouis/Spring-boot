@@ -1,0 +1,74 @@
+<!-- Modal -->
+<div *ngIf="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 dark:bg-gray-900 dark:bg-opacity-90 animate-fadeIn">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-md mx-auto text-center transform animate-slideUp">
+    <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Account Verification Required</h2>
+    <p class="text-gray-700 dark:text-gray-300 mb-6">
+      Your account needs additional setup. You will be redirected in
+      <span class="font-semibold">{{ countdown }}</span> seconds...
+    </p>
+    <button (click)="closeModal()" class="bg-blue-500 dark:bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-600 transition duration-300">
+      Close
+    </button>
+  </div>
+</div>
+
+<!-- Login Container -->
+<div class="flex flex-wrap animate-fadeIn dark:bg-gray-900">
+  <div class="flex w-full flex-col md:w-1/2 transform animate-slideLeft dark:bg-gray-800">
+    <div class="flex justify-center pt-12 md:-mb-24 md:justify-start md:pl-12">
+      <a class="border-b-gray-700 border-b-4 pb-2 text-2xl font-bold text-gray-900 dark:text-gray-100" href="#"> Ecommerce </a>
+    </div>
+    <div class="lg:w-[28rem] mx-auto my-auto flex flex-col justify-center pt-8 md:justify-start md:px-6 md:pt-0">
+      <p class="text-left text-3xl font-bold dark:text-gray-100 animate-fadeInUp delay-100">Welcome back</p>
+      <p class="mt-2 text-left text-gray-500 dark:text-gray-400 animate-fadeInUp delay-200">Please enter your account.</p>
+
+      <!-- Google Login Button -->
+      <button class="mt-8 flex items-center justify-center rounded-md border px-4 py-2 outline-none ring-gray-400 ring-offset-2 transition focus:ring-2 hover:border-transparent hover:bg-black hover:text-white dark:hover:bg-gray-700 dark:text-gray-300 transform hover:scale-105 duration-300 animate-fadeInUp delay-300">
+        <img class="mr-2 h-5" src="https://static.cdnlogo.com/logos/g/35/google-icon.svg" alt="google-icon" />
+        Log in with Google
+      </button>
+
+      <!-- Divider -->
+      <div class="relative mt-8 flex h-px place-items-center bg-gray-200 dark:bg-gray-600 animate-fadeInUp delay-400">
+        <div class="absolute left-1/2 h-6 w-14 -translate-x-1/2 bg-white dark:bg-gray-900 text-center text-sm text-gray-500 dark:text-gray-400">or</div>
+      </div>
+
+      <!-- Login Form -->
+      <form class="flex flex-col pt-3 md:pt-8 animate-fadeInUp delay-500" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="flex flex-col pt-4">
+          <div class="focus-within:border-b-gray-500 relative flex overflow-hidden border-b-2 transition">
+            <input name="username" [(ngModel)]="credentials.username" required type="text" class="w-full flex-1 appearance-none border-gray-300 bg-white dark:bg-gray-700 dark:text-gray-300 px-4 py-2 text-base text-gray-700 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none transform duration-300 focus:scale-105" placeholder="Email" />
+          </div>
+        </div>
+        <div class="mb-12 flex flex-col pt-4">
+          <div class="focus-within:border-b-gray-500 relative flex overflow-hidden border-b-2 transition">
+            <input name="password" [(ngModel)]="credentials.password" required type="password" class="w-full flex-1 appearance-none border-gray-300 bg-white dark:bg-gray-700 dark:text-gray-300 px-4 py-2 text-base text-gray-700 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none transform duration-300 focus:scale-105" placeholder="Password" />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="!loginForm.valid" class="w-full rounded-lg bg-gray-900 dark:bg-blue-600 px-4 py-2 text-center text-base font-semibold text-white shadow-md ring-gray-500 ring-offset-2 transition focus:ring-2 transform duration-300 hover:scale-105 hover:bg-gray-800 dark:hover:bg-blue-500">
+          Log in
+        </button>
+      </form>
+
+      <!-- Error Message -->
+      <div *ngIf="loginError" class="mt-4 text-red-500 text-center animate-fadeIn delay-100 dark:text-red-400">
+        Login failed. Please check your credentials and try again.
+      </div>
+
+      <!-- Sign Up Link -->
+      <div class="py-12 text-center animate-fadeInUp delay-600">
+        <p class="whitespace-nowrap text-gray-600 dark:text-gray-400">
+          Don't have an account?
+          <a href="/auth/register" class="underline-offset-4 font-semibold text-gray-900 dark:text-gray-100 underline">Sign up for free.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Image Section -->
+  <div class="pointer-events-none relative hidden h-screen select-none bg-black dark:bg-gray-900 md:block md:w-1/2">
+    <img class="-z-1 absolute top-0 h-full w-full object-cover opacity-90" src="/assets/images/background/3383108.jpg" alt="Background Image" layout="fill" objectFit="cover" />
+  </div>
+</div>

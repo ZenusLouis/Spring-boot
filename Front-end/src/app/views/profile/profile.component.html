@@ -1,0 +1,41 @@
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">
+  <div class="md:flex">
+    <div class="md:flex-shrink-0">
+    </div>
+    <div class="p-8">
+      <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">My Profile</div>
+      <div class="mt-4">
+        <div class="container mx-auto p-5">
+          <h1 class="text-4xl font-bold text-center mb-6">Welcome, {{ userInfo.username }}</h1>
+
+          <h2 class="text-2xl font-semibold mb-4">User Information</h2>
+
+          <div class="space-y-4">
+            <p class="text-lg">
+              <strong>First Name:</strong> {{ userInfo?.firstname }}
+            </p>
+            <p class="text-lg">
+              <strong>Last Name:</strong> {{ userInfo?.lastname }}
+            </p>
+            <p class="text-lg">
+              <strong>Email:</strong> {{ userInfo?.email }}
+            </p>
+            <p class="text-lg">
+              <strong>Roles:</strong> {{ userInfo?.roles?.join(', ') }}
+            </p>
+            <p class="text-lg">
+              <strong>Access Token:</strong>
+            </p>
+            <p class="text-sm text-gray-600 break-all">{{ accessToken }}</p>
+          </div>
+          <div *ngIf="!userInfo" class="mt-6 text-center">
+            <p class="text-gray-500">Loading user information...</p>
+          </div>
+        </div>
+      </div>
+      <button class="mt-6 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold py-2 px-4 rounded-full">
+        Save
+      </button>
+    </div>
+  </div>
+</div>

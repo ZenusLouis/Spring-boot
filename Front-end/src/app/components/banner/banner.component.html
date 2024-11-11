@@ -1,0 +1,79 @@
+<div class="relative overflow-hidden bg-blue-100 lg:min-h-[560px] dark:bg-gray-900">
+    <div id="custom-carousel" class="relative w-full">
+        <div class="relative overflow-hidden rounded-lg md:h-[35rem]">
+
+            <!-- Slide 1 - Image with centered text content -->
+            <div class="absolute w-full h-full transition-opacity duration-700 ease-in-out"
+                [ngClass]="{'opacity-100': currentSlide === 0, 'opacity-0': currentSlide !== 0}">
+                <div class="relative w-full h-full bg-cover bg-center"
+                    style="background-image: url('/assets/images/banners/josh-hild-HMcShOBtEvY-unsplash.jpg');">
+                    <div class="absolute top-0 left-0 w-full h-full bg-black/40 dark:bg-black/60 flex items-center justify-center">
+                        <div class="text-center text-white dark:text-gray-200 p-8">
+                            <h2 class="text-4xl font-bold">Welcome to Our Store</h2>
+                            <p class="mt-4 text-lg">Discover amazing deals and products just for you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 - Image with left-aligned content and button -->
+            <div class="absolute w-full h-full transition-opacity duration-700 ease-in-out"
+                [ngClass]="{'opacity-100': currentSlide === 1, 'opacity-0': currentSlide !== 1}">
+                <div class="relative w-full h-full bg-cover bg-center"
+                    style="background-image: url('/assets/images/banners/urban-vintage-YvuHZUGoe90-unsplash.jpg');">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/60 to-transparent dark:from-gray-900 dark:to-transparent flex items-center">
+                        <div class="ml-10 text-white dark:text-gray-200 p-8">
+                            <h2 class="text-3xl font-semibold">Explore Our Collection</h2>
+                            <p class="mt-2">Find the latest arrivals in our store.</p>
+                            <button class="mt-6 px-4 py-2 bg-white text-black dark:bg-gray-800 dark:text-white rounded">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 - Image with bottom-aligned text block -->
+            <div class="absolute w-full h-full transition-opacity duration-700 ease-in-out"
+                [ngClass]="{'opacity-100': currentSlide === 2, 'opacity-0': currentSlide !== 2}">
+                <div class="relative w-full h-full bg-cover bg-center"
+                    style="background-image: url('/assets/images/banners/mike-petrucci-c9FQyqIECds-unsplash.jpg');">
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-black/50 dark:bg-gray-800/70 text-white dark:text-gray-200">
+                        <h2 class="text-3xl font-bold">We're Open!</h2>
+                        <p class="mt-2 text-lg">Step inside and explore our range of quality products.</p>
+                        <p class="mt-1 text-sm">Visit us for exclusive in-store deals and a personalized experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider indicators -->
+        <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
+            <button *ngFor="let i of [0, 1, 2]" type="button" class="w-3 h-3 rounded-full bg-white dark:bg-gray-700"
+                [ngClass]="{'opacity-75': currentSlide === i, 'opacity-50': currentSlide !== i}" (click)="goToSlide(i)">
+            </button>
+        </div>
+
+        <!-- Slider controls -->
+        <button type="button"
+            class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            (click)="prevSlide()">
+            <span
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 dark:bg-gray-700/30 dark:group-hover:bg-gray-500/50">
+                <svg class="w-4 h-4 text-white dark:text-gray-300" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 1 1 5l4 4" />
+                </svg>
+            </span>
+        </button>
+        <button type="button"
+            class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            (click)="nextSlide()">
+            <span
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 dark:bg-gray-700/30 dark:group-hover:bg-gray-500/50">
+                <svg class="w-4 h-4 text-white dark:text-gray-300" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 9 4-4-4-4" />
+                </svg>
+            </span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div>
+    <h2>Camunda Process Control</h2>
+    <label for="orderAmount">Order Amount:</label>
+    <input type="number" [(ngModel)]="orderAmount" id="orderAmount">
+    <button (click)="startProcess()">Start Process</button>
+  </div>
+  
+  <div *ngIf="tasks.length > 0">
+    <h3>Tasks</h3>
+    <ul>
+      <li *ngFor="let task of tasks">
+        Task ID: {{ task.id }} - Task Name: {{ task.name }}
+        <button (click)="completeTask(task.id)">Complete Task</button>
+      </li>
+    </ul>
+  </div>
+  
