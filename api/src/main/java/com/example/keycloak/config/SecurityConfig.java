@@ -44,7 +44,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/profile", "/camunda/**", "/api/orders/**", "/api/dashboard/**", "/api/cart/**")
+                .securityMatcher("/api/profile", "/camunda/**", "/api/orders/**", "/api/dashboard/**", "/api/cart/**", "/api/reports/products/**", "/api/users/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )

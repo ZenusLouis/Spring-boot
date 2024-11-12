@@ -124,9 +124,11 @@ public class OrderService {
                 order.getOrder_id(),
                 order.getOrderDate(),
                 order.getStatus(),
-                user.getUsername(),
-                user.getPhone(),
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getAddress(),
+                user.getPhone(),
                 orderItems,
                 totalPrice
         );

@@ -1,5 +1,6 @@
 package com.example.keycloak.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Orders")
+@Table(name = "orders")  // Use lowercase 'orders' to match common database naming conventions
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
 
@@ -29,9 +30,10 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     List<OrderItem> orderItems = new ArrayList<>();
 
