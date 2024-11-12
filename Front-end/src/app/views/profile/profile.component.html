@@ -1,40 +1,84 @@
-<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl mt-10">
   <div class="md:flex">
-    <div class="md:flex-shrink-0">
+    <!-- Sidebar Navigation -->
+    <div class="md:w-1/3 p-8 bg-gray-100">
+      <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-4">Account Settings</div>
+      <ul class="space-y-4">
+        <li>
+          <button (click)="selectSection('profileInfo')" 
+                  [class.font-bold]="selectedSection === 'profileInfo'"
+                  class="text-left w-full text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            Profile Information
+          </button>
+        </li>
+        <li>
+          <button (click)="selectSection('accountInfo')" 
+                  [class.font-bold]="selectedSection === 'accountInfo'"
+                  class="text-left w-full text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            Account Information
+          </button>
+        </li>
+      </ul>
     </div>
-    <div class="p-8">
-      <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">My Profile</div>
-      <div class="mt-4">
-        <div class="container mx-auto p-5">
-          <h1 class="text-4xl font-bold text-center mb-6">Welcome, {{ userInfo.username }}</h1>
 
-          <h2 class="text-2xl font-semibold mb-4">User Information</h2>
-
-          <div class="space-y-4">
-            <p class="text-lg">
-              <strong>First Name:</strong> {{ userInfo?.firstname }}
-            </p>
-            <p class="text-lg">
-              <strong>Last Name:</strong> {{ userInfo?.lastname }}
-            </p>
-            <p class="text-lg">
-              <strong>Email:</strong> {{ userInfo?.email }}
-            </p>
-            <p class="text-lg">
-              <strong>Roles:</strong> {{ userInfo?.roles?.join(', ') }}
-            </p>
-            <p class="text-lg">
-              <strong>Access Token:</strong>
-            </p>
-            <p class="text-sm text-gray-600 break-all">{{ accessToken }}</p>
-          </div>
-          <div *ngIf="!userInfo" class="mt-6 text-center">
-            <p class="text-gray-500">Loading user information...</p>
-          </div>
+    <!-- Main Content Area -->
+    <div class="md:w-2/3 p-8">
+      <div *ngIf="selectedSection === 'profileInfo'">
+        <h1 class="text-4xl font-bold text-center mb-6">Welcome, {{ userInfo?.username }}</h1>
+        <h2 class="text-2xl font-semibold mb-4">User Information</h2>
+        <div class="space-y-4">
+          <p class="text-lg"><strong>Username:</strong> {{ userInfo?.username }}</p>
+          <p class="text-lg"><strong>Email:</strong> {{ email }}</p>
+          <p class="text-lg"><strong>First Name:</strong> {{ firstName }}</p>
+          <p class="text-lg"><strong>Last Name:</strong> {{ lastName }}</p>
+          <p class="text-lg"><strong>Phone:</strong> {{ phone }}</p>
+          <p class="text-lg"><strong>Address:</strong> {{ address }}</p>
         </div>
       </div>
-      <button class="mt-6 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold py-2 px-4 rounded-full">
-        Save
+
+      <div *ngIf="selectedSection === 'accountInfo'">
+        <h2 class="text-2xl font-semibold mb-4">Update Information</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-gray-700 font-bold mb-2">Email:</label>
+            <input type="text" [(ngModel)]="email" class="w-full px-4 py-2 border rounded-md" />
+          </div>
+          <div>
+            <label class="block text-gray-700 font-bold mb-2">First Name:</label>
+            <input type="text" [(ngModel)]="firstName" class="w-full px-4 py-2 border rounded-md" />
+          </div>
+          <div>
+            <label class="block text-gray-700 font-bold mb-2">Last Name:</label>
+            <input type="text" [(ngModel)]="lastName" class="w-full px-4 py-2 border rounded-md" />
+          </div>
+          <div>
+            <label class="block text-gray-700 font-bold mb-2">Phone:</label>
+            <input type="text" [(ngModel)]="phone" class="w-full px-4 py-2 border rounded-md" />
+          </div>
+          <div>
+            <label class="block text-gray-700 font-bold mb-2">Address:</label>
+            <textarea [(ngModel)]="address" class="w-full px-4 py-2 border rounded-md"></textarea>
+          </div>
+        </div>
+        <button
+          (click)="updateUserProfile()"
+          [disabled]="isUpdating"
+          class="mt-6 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold py-2 px-4 rounded-full">
+          {{ isUpdating ? 'Saving...' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Notification -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
+      <h2 class="text-xl font-semibold" [class.text-green-600]="isSuccess" [class.text-red-600]="!isSuccess">
+        {{ isSuccess ? 'Success' : 'Error' }}
+      </h2>
+      <p class="text-gray-700 mt-4">{{ modalMessage }}</p>
+      <button (click)="closeModal()" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        Close
       </button>
     </div>
   </div>

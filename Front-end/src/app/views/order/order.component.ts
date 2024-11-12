@@ -2,9 +2,9 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
-import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class OrderComponent {
   orders: any[] = [];
   selectedOrder: any | null = null;
+  selectedUser: any | null = null;
   showOrderModal: boolean = false;
   userId: number = parseInt(localStorage.getItem('user_id') || '0', 10);
   imageUrls: { [key: string]: string } = {};
@@ -25,14 +26,24 @@ export class OrderComponent {
   paginatedOrders: any[] = [];
 
   constructor(
-    private orderService: OrderService, 
+    private orderService: OrderService,
     private productService: ProductService,
+    private userService: UserService,
     private router: Router,
+    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.loadUserOrders();
+    this.route.queryParams.subscribe(params => {
+      this.currentPage = +params['page'] || 1;
+      const orderId = +params['orderId'];
+      if (orderId) {
+        this.viewOrderDetails(orderId);
+      } else {
+        this.loadUserOrders();
+      }
+    });
   }
 
   loadUserOrders() {
@@ -47,15 +58,30 @@ export class OrderComponent {
   }
 
   viewOrderDetails(orderId: number) {
+    this.router.navigate([], {
+      queryParams: { orderId: orderId, page: this.currentPage },
+      queryParamsHandling: 'merge'
+    });
+
     this.orderService.getOrderDetails(orderId).subscribe(
-      data => {
-        this.selectedOrder = data;
+      orderData => {
+        this.selectedOrder = orderData;
         this.showOrderModal = true;
         this.selectedOrder.orderItems.forEach((item: any) => {
           this.loadImage(item.pro_image || item.image);
         });
+        this.loadUserDetailsById(this.selectedOrder.userId);
       },
       error => console.error('Error loading order details:', error)
+    );
+  }
+
+  loadUserDetailsById(userId: number) {
+    this.userService.getUserDetails(userId).subscribe(
+      userData => {
+        this.selectedUser = userData;
+      },
+      error => console.error('Error loading user details:', error)
     );
   }
 
@@ -87,13 +113,13 @@ export class OrderComponent {
       this.orderService.updateOrderStatus(order.orderId, 'DELIVERED').subscribe(
         () => {
           order.status = 'DELIVERED';
-          this.cdr.detectChanges(); // Trigger change detection
+          this.cdr.detectChanges();
         },
         error => console.error('Error updating order status', error)
       );
     }
   }
-  
+
   cancelOrder(order: any) {
     if (order.status === 'PENDING') {
       this.orderService.updateOrderStatus(order.orderId, 'CANCELLED').subscribe(
@@ -105,10 +131,16 @@ export class OrderComponent {
       );
     }
   }
-  
+
   closeOrderModal() {
     this.showOrderModal = false;
     this.selectedOrder = null;
+    this.selectedUser = null;
+    // Remove orderId from the URL when closing the modal
+    this.router.navigate([], {
+      queryParams: { orderId: null },
+      queryParamsHandling: 'merge'
+    });
   }
 
   updatePaginatedOrders() {
@@ -120,24 +152,17 @@ export class OrderComponent {
   onPageChange(page: number | string): void {
     if (typeof page === 'number' && page !== this.currentPage) {
       this.currentPage = page;
-      this.updatePaginatedOrders(); // Update displayed orders for the new page
+      this.updatePaginatedOrders();
+      this.updatePaginationParams();
     }
   }
 
   updatePaginationParams(): void {
-    const pageParams: any = {};
-    if (this.currentPage > 1) {
-      pageParams.page = this.currentPage;
-      this.router.navigate([], {
-        queryParams: pageParams,
-        queryParamsHandling: 'merge'
-      });
-    } else {
-      this.router.navigate([], {
-        queryParams: {},
-        queryParamsHandling: ''
-      });
-    }
+    const pageParams: any = { page: this.currentPage };
+    this.router.navigate([], {
+      queryParams: pageParams,
+      queryParamsHandling: 'merge'
+    });
   }
 
   getPaginationNumbers(): (number | string)[] {

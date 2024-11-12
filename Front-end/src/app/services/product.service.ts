@@ -73,6 +73,10 @@ export class ProductService {
     return this.http.get(`${this.reportUrl}/excel`, { headers: this.getAuthHeaders(), responseType: 'blob' });
   }
 
+  exportToDocx(): Observable<Blob> {
+    return this.http.get(`${this.reportUrl}/docx`, { headers: this.getAuthHeaders(), responseType: 'blob' });
+  }
+  
   //Import methods
   importProducts(file: File): Observable<string> {
     const formData = new FormData();

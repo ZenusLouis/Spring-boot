@@ -29,12 +29,12 @@
                     <div [ngClass]="statusClass(order.status)"
                       class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
                       <svg [innerHTML]="statusIcon(order.status)" class="w-5 h-5"></svg>
-                      <h2 (click)="updateToShipping(order)" class="text-sm font-normal cursor-pointer">{{ order.status }}</h2>
+                      <h2 (click)="updateToShipping(order)" class="text-sm font-normal cursor-pointer">{{ order.status
+                        }}</h2>
                     </div>
                   </td>
                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                    <h2 class="text-sm font-medium capitalize text-gray-800 dark:text-white">{{ order.customerUsername
-                      }}</h2>
+                    <h2 class="text-sm font-medium capitalize text-gray-800 dark:text-white">{{ order.firstName }} {{ order.lastName }}</h2>
                   </td>
                   <td class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                     {{ order.orderItems.length }}
@@ -94,7 +94,8 @@
       <!-- Customer and Status Information Card -->
       <div class="bg-gray-50 rounded-lg p-4 shadow-inner space-y-4">
         <div class="flex items-center justify-between">
-          <p class="text-lg font-medium">Customer: <span class="font-normal capitalize">{{ selectedOrder.customerUsername }}</span>
+          <p class="text-lg font-medium">Customer: <span class="font-normal capitalize">{{ selectedOrder.firstName }} {{
+              selectedOrder.lastName }}</span>
           </p>
           <span [ngClass]="statusClass(selectedOrder.status)"
             class="flex items-center space-x-2 px-3 py-1 rounded-full">
@@ -104,14 +105,14 @@
         </div>
 
         <!-- Optional Phone and Address Fields -->
-        <div *ngIf="selectedOrder.customerPhone || selectedOrder.customerAddress" class="grid grid-cols-2 gap-4">
-          <div *ngIf="selectedOrder.customerPhone">
+        <div *ngIf="selectedOrder.phone || selectedOrder.address" class="grid grid-cols-2 gap-4">
+          <div *ngIf="selectedOrder.phone">
             <p class="text-gray-500 font-medium">Phone:</p>
-            <p class="text-lg">{{ selectedOrder.customerPhone || 'N/A' }}</p>
+            <p class="text-lg">{{ selectedOrder.phone || 'N/A' }}</p>
           </div>
-          <div *ngIf="selectedOrder.customerAddress">
+          <div *ngIf="selectedOrder.address">
             <p class="text-gray-500 font-medium">Address:</p>
-            <p class="text-lg">{{ selectedOrder.customerAddress || 'N/A' }}</p>
+            <p class="text-lg">{{ selectedOrder.address || 'N/A' }}</p>
           </div>
         </div>
       </div>

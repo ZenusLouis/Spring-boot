@@ -1,12 +1,12 @@
 package com.example.keycloak.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class User {
     @Column()
     Double budget;
 
-    // Relationship to represent the user's orders
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     List<Order> orders = new ArrayList<>();
 }

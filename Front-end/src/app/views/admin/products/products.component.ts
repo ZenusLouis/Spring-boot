@@ -222,6 +222,13 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  exportToDocx() {
+    this.productService.exportToDocx().subscribe(blob => {
+      const filename = this.exportFileName ? `${this.exportFileName}.docx` : 'products.docx';
+      this.downloadFile(blob, filename);
+    });
+  }
+
   downloadFile(blob: Blob, filename: string) {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

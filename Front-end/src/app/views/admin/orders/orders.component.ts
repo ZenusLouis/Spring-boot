@@ -19,7 +19,7 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private sanitizer: DomSanitizer // Inject DomSanitizer here
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +62,6 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  // Pagination logic
   paginatedOrders(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.orders.slice(startIndex, startIndex + this.itemsPerPage);
@@ -86,12 +85,12 @@ export class OrdersComponent implements OnInit {
   updateToShipping(order: any): void {
     if (order.status === 'PENDING') {
       this.orderService.updateOrderStatus(order.orderId, 'SHIPPING').subscribe(
-        () => this.loadOrders(), // Refresh orders after update
+        () => this.loadOrders(),
         error => console.error('Error updating order status', error)
       );
     }
   }
-  // Status color and icon logic
+  
   statusClass(status: string): string {
     switch (status) {
       case 'PENDING':

@@ -1,284 +1,244 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-              name="product_report"
-              pageWidth="595" pageHeight="842"
-              whenNoDataType="NoPages"
-              columnWidth="555"
-              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-
-    <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
-    <property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
-    <property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
-    <property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
-    <property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="false"/>
-
-    <!-- SQL Query for PostgreSQL DataSource -->
-    <queryString>
-        <![CDATA[
-            SELECT p.pro_id, p.pro_name, p.pro_des, p.pro_stock, p.pro_price,
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="product_report" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e5989a68-8031-407d-9893-7823e37acf20">
+	<property name="net.sf.jasperreports.export.docx.flexible.row.height" value="false"/>
+	<property name="net.sf.jasperreports.export.docx.ignore.hyperlink" value="true"/>
+	<property name="net.sf.jasperreports.export.docx.metadata.title" value="Product Report"/>
+	<property name="net.sf.jasperreports.export.docx.metadata.author" value="Zenus Louis"/>
+	<property name="net.sf.jasperreports.export.docx.frames.as.nested.tables" value="true"/>
+	<property name="net.sf.jasperreports.export.docx.ignore.graphics" value="false"/>
+	<property name="net.sf.jasperreports.export.docx.wrap.tables.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.docx.metadata.subject" value="Product Report Subject"/>
+	<property name="net.sf.jasperreports.export.docx.metadata.keywords" value="JasperReports, DOCX, Product Report"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="false"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<queryString>
+		<![CDATA[SELECT p.pro_id, p.pro_name, p.pro_des, p.pro_stock, p.pro_price,
                    p.pro_status, p.created_at AS createdAt, c.cate_name AS category_name
             FROM Products p
-            JOIN Categories c ON p.cate_id = c.cate_id
-        ]]>
-    </queryString>
-
-    <!-- Fields Definitions -->
-    <field name="pro_id" class="java.lang.Long"/>
-    <field name="pro_name" class="java.lang.String"/>
-    <field name="pro_des" class="java.lang.String"/>
-    <field name="pro_stock" class="java.lang.Integer"/>
-    <field name="pro_price" class="java.lang.Double"/>
-    <field name="pro_status" class="java.lang.Integer"/>
-    <field name="createdAt" class="java.sql.Timestamp"/>
-    <field name="category_name" class="java.lang.String"/>
-
-    <!-- Report Title -->
-    <title>
-        <band height="50">
-            <staticText>
-                <reportElement x="0" y="10" width="555" height="30"/>
-                <textElement textAlignment="Center">
-                    <font size="18" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Product Report]]></text>
-            </staticText>
-        </band>
-    </title>
-
-    <!-- Column Headers -->
-    <columnHeader>
-        <band height="30">
-            <!-- ID Column -->
-            <rectangle>
-                <reportElement x="0" y="0" width="50" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="0" y="5" width="50" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[ID]]></text>
-            </staticText>
-
-            <!-- Name Column -->
-            <rectangle>
-                <reportElement x="50" y="0" width="100" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="50" y="5" width="100" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[Name]]></text>
-            </staticText>
-
-            <!-- Description Column -->
-            <rectangle>
-                <reportElement x="150" y="0" width="100" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="150" y="5" width="100" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[Description]]></text>
-            </staticText>
-
-            <!-- Stock Column -->
-            <rectangle>
-                <reportElement x="250" y="0" width="50" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="250" y="5" width="50" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[Stock]]></text>
-            </staticText>
-
-            <!-- Price Column -->
-            <rectangle>
-                <reportElement x="300" y="0" width="50" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="300" y="5" width="50" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[Price]]></text>
-            </staticText>
-
-            <!-- Status Column -->
-            <rectangle>
-                <reportElement x="350" y="0" width="50" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="350" y="5" width="50" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[Status]]></text>
-            </staticText>
-
-            <!-- Category Column -->
-            <rectangle>
-                <reportElement x="400" y="0" width="80" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="400" y="5" width="80" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[Category]]></text>
-            </staticText>
-
-            <!-- Created At Column -->
-            <rectangle>
-                <reportElement x="480" y="0" width="75" height="30"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <staticText>
-                <reportElement x="480" y="5" width="75" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true"/>
-                </textElement>
-                <text><![CDATA[Created At]]></text>
-            </staticText>
-        </band>
-    </columnHeader>
-
-    <!-- Detail Row with Borders -->
-    <detail>
-        <band height="20">
-            <!-- ID Field with border -->
-            <rectangle>
-                <reportElement x="0" y="0" width="50" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField>
-                <reportElement x="0" y="0" width="50" height="20"/>
-                <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[$F{pro_id}]]></textFieldExpression>
-            </textField>
-
-            <!-- Name Field with border -->
-            <rectangle>
-                <reportElement x="50" y="0" width="100" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField>
-                <reportElement x="50" y="0" width="100" height="20"/>
-                <textElement textAlignment="Left"/>
-                <textFieldExpression><![CDATA[$F{pro_name}]]></textFieldExpression>
-            </textField>
-
-            <!-- Description Field with border -->
-            <rectangle>
-                <reportElement x="150" y="0" width="100" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField>
-                <reportElement x="150" y="0" width="100" height="20"/>
-                <textElement textAlignment="Left"/>
-                <textFieldExpression><![CDATA[$F{pro_des}]]></textFieldExpression>
-            </textField>
-
-            <!-- Stock Field with border -->
-            <rectangle>
-                <reportElement x="250" y="0" width="50" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField>
-                <reportElement x="250" y="0" width="50" height="20"/>
-                <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[$F{pro_stock}]]></textFieldExpression>
-            </textField>
-
-            <!-- Price Field with border -->
-            <rectangle>
-                <reportElement x="300" y="0" width="50" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField>
-                <reportElement x="300" y="0" width="50" height="20"/>
-                <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[$F{pro_price}]]></textFieldExpression>
-            </textField>
-
-            <!-- Status Field with border -->
-            <rectangle>
-                <reportElement x="350" y="0" width="50" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField>
-                <reportElement x="350" y="0" width="50" height="20"/>
-                <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[$F{pro_status}]]></textFieldExpression>
-            </textField>
-
-            <!-- Category Field with border -->
-            <rectangle>
-                <reportElement x="400" y="0" width="80" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField>
-                <reportElement x="400" y="0" width="80" height="20"/>
-                <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
-            </textField>
-
-            <!-- Created At Field with border -->
-            <rectangle>
-                <reportElement x="480" y="0" width="75" height="20"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-            <textField pattern="dd/MM/yy HH:mm">
-                <reportElement x="480" y="0" width="75" height="20"/>
-                <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yy HH:mm").format($F{createdAt})]]>
-                </textFieldExpression>
-            </textField>
-        </band>
-    </detail>
+            JOIN Categories c ON p.cate_id = c.cate_id]]>
+	</queryString>
+	<field name="pro_id" class="java.lang.Long"/>
+	<field name="pro_name" class="java.lang.String"/>
+	<field name="pro_des" class="java.lang.String"/>
+	<field name="pro_stock" class="java.lang.Integer"/>
+	<field name="pro_price" class="java.lang.Double"/>
+	<field name="pro_status" class="java.lang.Integer"/>
+	<field name="createdAt" class="java.sql.Timestamp"/>
+	<field name="category_name" class="java.lang.String"/>
+	<title>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="10" width="555" height="30" uuid="b1984962-0a60-4b2b-9a1e-cc8602b9fdcf"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30">
+			<rectangle>
+				<reportElement x="0" y="0" width="50" height="30" uuid="245deee4-8428-45ab-8307-fbb3db7019a3"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="5" width="50" height="20" uuid="a1c7a310-7e73-4d86-9356-3c468ae62212"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="50" y="0" width="100" height="30" uuid="e543e55b-45d9-42ed-8317-7155f9ecc21a"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="50" y="5" width="100" height="20" uuid="ca372e55-5b41-4810-8e8d-5aa9792d1c88"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="150" y="0" width="100" height="30" uuid="78ff966e-dd80-4d15-8664-a2e09e335b02"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="150" y="5" width="100" height="20" uuid="6792fd5a-e0aa-48f5-8552-5d6cd8af339c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="250" y="0" width="50" height="30" uuid="9b1fb44b-6773-45e8-9c62-80e4e6776036"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="250" y="5" width="50" height="20" uuid="f4d2578b-4350-480a-9267-17d682b2e24c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stock]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="300" y="0" width="50" height="30" uuid="cb9ddb3f-acd9-4256-ba1b-ced3c0689198"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="300" y="5" width="50" height="20" uuid="140d074e-512d-4071-b318-1eeb655cf9da"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="350" y="0" width="50" height="30" uuid="65fe11f6-e8f2-4525-af88-d742b45f5a19"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="350" y="5" width="50" height="20" uuid="ababc48e-6be1-44b4-b76d-f1e43e55387c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="400" y="0" width="80" height="30" uuid="0ba9c390-1ef8-42b5-b93c-638148c61da2"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="400" y="5" width="80" height="20" uuid="e8628930-5d03-4db5-9d30-6f650c94df6c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Category]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="480" y="0" width="75" height="30" uuid="44741051-defa-4038-bda7-81daf40c8ab2"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="480" y="5" width="75" height="20" uuid="042b8284-f84b-4ea8-89f0-0dffd05e30bb"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Created At]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<rectangle>
+				<reportElement x="0" y="0" width="50" height="20" uuid="c94292f5-4944-4790-b52c-ba7f67df9787"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="50" height="20" uuid="1c30b9c4-b107-490f-9ee2-a7421eb9c36c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pro_id}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="50" y="0" width="100" height="20" uuid="ae5fdeb5-81f6-42d9-a223-4db910591ce8"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="50" y="0" width="100" height="20" uuid="4096c9d7-27c6-4cd2-b61d-b6361b313b2c"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{pro_name}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="150" y="0" width="100" height="20" uuid="ada55e98-e3ef-462e-a1f4-4600e8109a1c"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="150" y="0" width="100" height="20" uuid="f1aa6343-e1cd-45e2-9426-f858fa926f4d"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{pro_des}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="250" y="0" width="50" height="20" uuid="1359a332-4add-4223-be47-52ac01204c54"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="250" y="0" width="50" height="20" uuid="6162cf8f-68d9-42bf-a872-7ef14d7006ab"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pro_stock}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="300" y="0" width="50" height="20" uuid="aab76bb8-f501-40a0-986a-212ff25e08a1"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="300" y="0" width="50" height="20" uuid="009c83b6-ad50-4da8-81ba-9fc8612e460a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pro_price}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="350" y="0" width="50" height="20" uuid="30ff6f21-467f-4952-a433-3043b4165098"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="350" y="0" width="50" height="20" uuid="b46a6f23-c974-42b2-ab1e-230ceb67202f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pro_status}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="400" y="0" width="80" height="20" uuid="4267a343-7328-4450-ae57-fe636084f8ca"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="400" y="0" width="80" height="20" uuid="010f52bd-3627-4244-affd-f4960a17be66"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="480" y="0" width="75" height="20" uuid="396255ad-cc6a-4b72-a37c-f99b0b4822df"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField pattern="dd/MM/yy HH:mm">
+				<reportElement x="480" y="0" width="75" height="20" uuid="352b58d5-5e5b-426e-8dcb-e992b2838bbf"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yy HH:mm").format($F{createdAt})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
 </jasperReport>

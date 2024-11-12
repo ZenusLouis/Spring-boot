@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
+import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,16 +15,24 @@ export class CartPageComponent implements OnInit {
   items: any[] = [];
   totalItems: number = 0;
   totalPrice: number = 0;
+  
+  phone: string = '';
+  address: string = '';
 
-  // Properties for the notification modal
+  showPreReviewModal: boolean = false;
   showNotificationModal: boolean = false;
   notificationMessage: string = '';
-  isCheckoutSuccess: boolean = false; // Indicates if the checkout was successful
+  isCheckoutSuccess: boolean = false;
 
-  constructor(private cartService: CartService, private router: Router) { }
+  constructor(
+    private cartService: CartService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadCart();
+    this.loadUserDetails();
   }
 
   loadCart() {
@@ -41,6 +50,17 @@ export class CartPageComponent implements OnInit {
         });
       },
       error => console.error('Failed to load cart:', error)
+    );
+  }
+
+  loadUserDetails() {
+    const userId = parseInt(localStorage.getItem('user_id') || '0', 10);
+    this.userService.getUserDetails(userId).subscribe(
+      userDetails => {
+        this.phone = userDetails.phone || '';
+        this.address = userDetails.address || '';
+      },
+      error => console.error('Failed to load user details:', error)
     );
   }
 
@@ -67,27 +87,51 @@ export class CartPageComponent implements OnInit {
     }
   }
 
-  checkout() {
+  openPreReviewModal() {
+    this.showPreReviewModal = true;
+  }
+
+  confirmCheckout() {
     const userId = parseInt(localStorage.getItem('user_id') || '0', 10);
-    this.cartService.checkout(userId).subscribe(
-      () => {
-        // On successful checkout
+    const updatedData = {
+      phone: this.phone,
+      address: this.address
+    };
+    if (this.phone && this.address) {
+      this.proceedCheckout(userId);
+    } else {
+      this.userService.updateUserDetails(userId, updatedData).subscribe(
+        () => {
+          this.proceedCheckout(userId);
+        },
+        error => console.error('Failed to update user details before checkout:', error)
+      );
+    }
+  }
+
+  proceedCheckout(userId: number) {
+    this.cartService.checkout(userId, this.phone, this.address).subscribe(
+      (response) => {
+        console.log("Checkout Response:", response); // Log response khi thành công
         this.isCheckoutSuccess = true;
         this.notificationMessage = "Checkout successful! Your order has been placed.";
         this.showNotificationModal = true;
-        this.loadCart(); // Clear cart
+        this.showPreReviewModal = false;
+        this.loadCart();
       },
       error => {
-        // On failed checkout
+        console.error("Checkout Error:", error);
         this.isCheckoutSuccess = false;
-        if (error.status === 400 && error.error === 'Not enough money in the account') {
-          this.notificationMessage = 'Checkout failed: You do not have enough money to complete the purchase.';
-        } else {
-          this.notificationMessage = 'Checkout failed. Please try again.';
-        }
+        this.notificationMessage = error.error === 'Not enough money in the account'
+          ? 'Checkout failed: You do not have enough money to complete the purchase.'
+          : 'Checkout failed. Please try again.';
         this.showNotificationModal = true;
       }
     );
+  }
+  
+  closePreReviewModal() {
+    this.showPreReviewModal = false;
   }
 
   closeNotificationModal() {
@@ -96,7 +140,6 @@ export class CartPageComponent implements OnInit {
   }
 
   seeOrder() {
-    console.log('Navigating to order details page...');
     this.router.navigate(['/orders']);
     this.showNotificationModal = false;
   }

@@ -53,11 +53,11 @@ export class CartService {
     });
   }
 
-  checkout(userId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/checkout`, { userId }, {
+  checkout(userId: number, phone: string, address: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/checkout`, { userId, phone, address }, {
       headers: this.getHeaders(),
-      withCredentials: true,
-      responseType: 'text'
+      responseType: 'text' as 'json',
+      withCredentials: true
     });
   }
 }

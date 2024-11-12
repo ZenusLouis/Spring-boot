@@ -40,7 +40,6 @@ public class CartController {
             session.setAttribute("cartItems", cartItems);
         }
 
-        // Retrieve product price from the repository
         Product product = productRepository.findById(cartItem.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProductId()));
         cartItem.setPrice(product.getPro_price());
@@ -55,10 +54,8 @@ public class CartController {
             cartItems.add(cartItem);
         }
 
-        // Save the cart items in session
         session.setAttribute("cartItems", cartItems);
 
-        // Start the Camunda process with "Add to cart" step
         Map<String, Object> variables = new HashMap<>();
         variables.put("cartItems", cartItems);
 
@@ -99,27 +96,13 @@ public class CartController {
     @PostMapping("/checkout")
     public ResponseEntity<String> checkout(@RequestBody Map<String, Object> payload, HttpSession session) {
         Long userId = ((Number) payload.get("userId")).longValue();
+        String phone = (String) payload.get("phone");
+        String address = (String) payload.get("address");
+
         List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cartItems");
 
         if (cartItems == null || cartItems.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cart is empty");
-        }
-
-        double totalCost = 0.0;
-        for (CartItem item : cartItems) {
-            Product product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductId()));
-
-            double itemCost = product.getPro_price() * item.getQuantity();
-            totalCost += itemCost;
-
-            if (product.getPro_stock() < item.getQuantity()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Insufficient stock for product: " + product.getPro_name());
-            }
-
-            product.setPro_stock(product.getPro_stock() - item.getQuantity());
-            productRepository.save(product);
         }
 
         Optional<User> userOptional = userRepository.findById(userId);
@@ -128,6 +111,28 @@ public class CartController {
         }
 
         User user = userOptional.get();
+
+        if (phone != null && !phone.isEmpty()) {
+            user.setPhone(phone);
+        }
+        if (address != null && !address.isEmpty()) {
+            user.setAddress(address);
+        }
+
+        double totalCost = 0.0;
+        for (CartItem item : cartItems) {
+            Product product = productRepository.findById(item.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductId()));
+            double itemCost = product.getPro_price() * item.getQuantity();
+            totalCost += itemCost;
+
+            if (product.getPro_stock() < item.getQuantity()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Insufficient stock for product: " + product.getPro_name());
+            }
+            product.setPro_stock(product.getPro_stock() - item.getQuantity());
+            productRepository.save(product);
+        }
 
         if (user.getBudget() < totalCost) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough money in the account");

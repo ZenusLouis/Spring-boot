@@ -25,7 +25,7 @@ export class OrderService {
     return this.http.get(`${this.apiUrl}/${orderId}`, { headers: this.getHeaders() });
   }
   getUserOrders(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`, { headers: this.getHeaders() });
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`, { headers: this.getHeaders(), responseType: 'json' });
   }
 
   updateOrderStatus(orderId: number, newStatus: string): Observable<any> {
