@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild('dropdownWrapper') dropdownWrapper!: ElementRef;
   isAuthenticated: boolean = false;
   isDropdownOpen: boolean = false;
+  isMobileMenuOpen: boolean = false;
   userInfo: any = {};
   isDarkMode = false;
 
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkAuthentication();
+    this.initializeDarkMode();
   }
 
   async checkAuthentication() {
@@ -62,19 +64,37 @@ export class NavbarComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    if (
+      this.dropdownWrapper &&
+      !this.dropdownWrapper.nativeElement.contains(event.target) &&
+      this.isDropdownOpen
+    ) {
+      this.isDropdownOpen = false;
+    }
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+  openDropdown() {
+    this.isDropdownOpen = true;
+  }
   closeDropdown() {
     if (this.dropdownWrapper && !this.dropdownWrapper.nativeElement.contains(document.activeElement)) {
       this.isDropdownOpen = false;
     }
   }
-
-  openDropdown() {
-    this.isDropdownOpen = true;
-  }
-
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
-    const htmlElement = document.documentElement;
-    htmlElement.classList.toggle('dark', this.isDarkMode);
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+    localStorage.setItem('darkMode', JSON.stringify(this.isDarkMode));
+  }
+
+  initializeDarkMode() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    this.isDarkMode = savedDarkMode ? JSON.parse(savedDarkMode) : false;
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
 }

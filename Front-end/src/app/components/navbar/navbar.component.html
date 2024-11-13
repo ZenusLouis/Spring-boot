@@ -21,31 +21,29 @@
             </svg>
         </a>
 
-        <!-- Main Navigation Links -->
-        <li class="max-lg:border-b max-lg:py-2 px-3 lg:inline-block hidden">
-            <a href="/#"
-                class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 block font-semibold transition-colors">Home</a>
-        </li>
-        <li class="max-lg:border-b max-lg:py-2 px-3 lg:inline-block hidden">
-            <a href="/products"
-                class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 block font-semibold transition-colors">Product</a>
-        </li>
-        <li class="max-lg:border-b max-lg:py-2 px-3 lg:inline-block hidden">
-            <a href="/about"
-                class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 block font-semibold transition-colors">About</a>
-        </li>
-        <li class="max-lg:border-b max-lg:py-2 px-3 lg:inline-block hidden">
-            <a href="/contact"
-                class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 block font-semibold transition-colors">Contact</a>
-        </li>
+        <!-- Hamburger Menu Icon for Mobile -->
+        <button (click)="isMobileMenuOpen = !isMobileMenuOpen" class="lg:hidden flex items-center p-2">
+            <svg class="w-7 h-7 text-gray-800 dark:text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+
+        <!-- Main Navigation Links (hidden on mobile, visible on larger screens) -->
+        <div class="hidden lg:flex space-x-8 items-center">
+            <a href="/" class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold transition-colors">Home</a>
+            <a href="/products" class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold transition-colors">Product</a>
+            <a href="/about" class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold transition-colors">About</a>
+            <a href="/contact" class="text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold transition-colors">Contact</a>
+        </div>
+
         <!-- User Profile and Cart Section -->
         <div class="flex items-center space-x-6 rtl:space-x-reverse ml-auto">
             <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" class="sr-only" (change)="toggleDarkMode()" />
-                <div
-                    class="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full transition-colors flex items-center px-1">
-                    <span
-                        class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transform transition-transform flex items-center justify-center"
+                <div class="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full transition-colors flex items-center px-1">
+                    <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transform transition-transform flex items-center justify-center"
                         [ngClass]="{'translate-x-full': isDarkMode}">
                         <svg version="1.1" id="Layer_1" *ngIf="!isDarkMode" class="w-3 h-3 text-yellow-500"
                             fill="currentColor" xmlns="http://www.w3.org/2000/svg"
@@ -64,17 +62,14 @@
                     </span>
                 </div>
             </label>
-            <!-- Cart Section -->
             <div class="relative">
                 <a href="/cart">
-                    <button
-                        class="flex items-center text-gray-700 dark:text-gray-200 p-2 hover:text-blue-600 dark:hover:text-blue-400">
+                    <button class="flex items-center text-gray-700 dark:text-gray-200 p-2 hover:text-blue-600 dark:hover:text-blue-400">
                         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312">
                             </path>
                         </svg>
-                        <span class="hidden sm:inline ml-2">Cart</span>
                     </button>
                 </a>
             </div>
@@ -91,25 +86,12 @@
                 <!-- Account Dropdown for Desktop and Mobile -->
                 <div class="relative" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()">
                     <button id="toggleOpen" #toggleOpen class="lg:hidden ml-7">
-                        <svg class="w-7 h-7 text-gray-800 dark:text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                clip-rule="evenodd"></path>
-                        </svg>
                     </button>
                     <div *ngIf="isDropdownOpen"
-                        class="absolute -right-14 z-50 w-44 mt-7 bg-white dark:bg-gray-800 rounded-md shadow-lg">
-                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                            <a routerLink="/orders"
-                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
-                            role="menuitem">My Order</a>
-                            <a routerLink="/profile"
-                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
-                                role="menuitem">Profile</a>
-                            <a (click)="logout()"
-                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
-                                role="menuitem">Logout</a>
-                        </div>
+                        class="absolute right-0 z-50 w-44 mt-7 bg-white dark:bg-gray-800 rounded-md shadow-lg">
+                        <a routerLink="/orders" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">My Order</a>
+                        <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Profile</a>
+                        <a (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Logout</a>
                     </div>
                 </div>
             </ng-template>
@@ -117,19 +99,19 @@
     </div>
 
     <!-- Mobile Menu Section -->
-    <div class="lg:hidden">
+    <div *ngIf="isMobileMenuOpen" class="lg:hidden">
         <ul class="px-4 py-2 space-y-2 bg-white dark:bg-gray-900">
             <li class="border-b py-2">
-                <a href="/products"
-                    class="block text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold">Product</a>
+                <a href="/" class="block text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold">Home</a>
             </li>
             <li class="border-b py-2">
-                <a href="/about"
-                    class="block text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold">About</a>
+                <a href="/products" class="block text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold">Product</a>
             </li>
             <li class="border-b py-2">
-                <a href="/contact"
-                    class="block text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold">Contact</a>
+                <a href="/about" class="block text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold">About</a>
+            </li>
+            <li class="border-b py-2">
+                <a href="/contact" class="block text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 font-semibold">Contact</a>
             </li>
         </ul>
     </div>

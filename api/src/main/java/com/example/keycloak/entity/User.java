@@ -42,9 +42,13 @@ public class User {
     String address;
 
     @Column()
-    Double budget;
+    Double budget = 0.0;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference("user-review")
+    List<Review> reviews = new ArrayList<>();
 }

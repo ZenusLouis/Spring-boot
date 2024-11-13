@@ -1,23 +1,44 @@
 <app-notification [message]="notificationMessage" [type]="notificationType" [show]="showNotification">
 </app-notification>
 <div class="font-sans flex justify-center dark:bg-gray-900 dark:text-gray-100">
-  <div class="p-4 lg:max-w-7xl max-w-xl max-lg:mx-auto">
+  <div class="p-4 lg:max-w-7xl w-full max-w-full mx-auto">
     <!-- Main Product Section -->
-    <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
-      <div class="min-h-[500px] min-w-[650px] lg:col-span-3 bg-gradient-to-tr from-[#F8C794] via-[#FFE0B5] to-[#FFF2D7] rounded-lg w-full lg:sticky top-0 text-center p-6 flex items-center justify-center dark:bg-gradient-to-tr dark:from-[#333333] dark:via-[#555555] dark:to-[#777777]">
-        <img *ngIf="product" [src]="getImageUrl(product!)" alt="{{ product.pro_name }}" class="max-h-[500px] max-w-[500px] object-cover rounded-lg shadow-lg dark:shadow-gray-800">
+    <div class="grid items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div
+        class="min-h-[300px] sm:min-h-[400px] md:min-h-[500px] w-full lg:col-span-3 bg-gradient-to-tr from-[#F8C794] via-[#FFE0B5] to-[#FFF2D7] rounded-lg flex items-center justify-center text-center p-4 dark:bg-gradient-to-tr dark:from-[#333333] dark:via-[#555555] dark:to-[#777777]">
+        <img *ngIf="product" [src]="getImageUrl(product!)" alt="{{ product.pro_name }}"
+          class="max-h-full max-w-full object-cover rounded-lg shadow-lg dark:shadow-gray-800">
       </div>
-      <div class="lg:col-span-2">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 first-letter:uppercase">{{ product?.pro_name }}</h2>
-        <div class="mt-2">
-          <p class="text-2xl font-semibold text-orange-500 dark:text-orange-400">${{ product?.pro_price }}</p>
+
+      <!-- Product Details Section -->
+      <div class="lg:col-span-2 space-y-6 px-2 md:px-4">
+        <h2
+          class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 first-letter:uppercase text-center md:text-left">
+          {{ product?.pro_name }}</h2>
+        <!-- Average Rating Section -->
+        <div class="flex items-center space-x-2 mt-4">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+            <svg [ngClass]="i < averageRating ? 'fill-orange-400' : 'fill-[#CED5D8]'" class="w-5" viewBox="0 0 14 13"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+            </svg>
+          </ng-container>
+          <span class="text-gray-700 dark:text-gray-300">{{ averageRating.toFixed(1) }} / 5</span>
+        </div>
+        <div class="mt-2 text-center md:text-left">
+          <p class="text-xl sm:text-2xl font-semibold text-orange-500 dark:text-orange-400">${{ product?.pro_price }}
+          </p>
         </div>
         <hr class="my-4 border-gray-200 dark:border-gray-700" />
-        <div class="mt-4">
+
+        <div>
           <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Product Information</h3>
-          <p class="text-gray-600 dark:text-gray-400 mt-2 leading-relaxed first-letter:uppercase">{{ product?.pro_des }}</p>
+          <p class="text-gray-600 dark:text-gray-400 mt-2 leading-relaxed first-letter:uppercase">{{ product?.pro_des }}
+          </p>
         </div>
-        <div class="mt-6">
+
+        <div>
           <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Details</h3>
           <ul class="space-y-2 mt-2 text-gray-600 dark:text-gray-400">
             <li><strong>Category:</strong> {{ category?.cate_name }}</li>
@@ -25,17 +46,122 @@
           </ul>
         </div>
 
-        <div class="mt-8 flex items-center">
+        <div class="flex items-center justify-center md:justify-start mt-4">
           <label class="mr-2 dark:text-gray-300" for="quantity">Quantity:</label>
-          <input type="number" id="quantity" [(ngModel)]="quantity" min="1" 
-                 class="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 w-20 dark:bg-gray-800 dark:text-gray-100" />
+          <input type="number" id="quantity" [(ngModel)]="quantity" min="1"
+            class="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 w-20 dark:bg-gray-800 dark:text-gray-100" />
         </div>
+
         <button (click)="addToCart()" type="button"
-                class="w-full mt-8 px-6 py-3 bg-orange-400 hover:bg-orange-500 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm font-semibold rounded-md"
-                [disabled]="!product">
+          class="w-full md:w-auto mt-6 px-6 py-3 bg-orange-400 hover:bg-orange-500 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm font-semibold rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="!product || product.pro_stock === 0">
           {{ product?.pro_stock === 0 ? 'Out of Stock' : 'Add to cart' }}
         </button>
       </div>
     </div>
+
+    <!-- Reviews Section -->
+    <div class="mt-8">
+      <h3 class="text-xl font-bold text-gray-800">Write a Review</h3>
+      <form (submit)="submitReview()" class="space-y-4 mt-4">
+        <div class="review-rating flex space-x-1">
+          <span *ngFor="let rating of [1, 2, 3, 4, 5]; let i = index" (click)="setRating(i + 1)" class="cursor-pointer"
+            [ngClass]="{'text-yellow-500': (i + 1) <= reviewRating, 'text-gray-300': (i + 1) > reviewRating}">
+            &#9733;
+          </span>
+        </div>
+        <div>
+          <label for="review-content" class="block text-sm font-medium text-gray-700">Review:</label>
+          <textarea id="review-content" [(ngModel)]="reviewContent" name="content" rows="4"
+            class="mt-1 block w-full border border-gray-300 rounded-md" placeholder="Write your review..."></textarea>
+        </div>
+        <button type="submit"
+          class="w-full px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white font-semibold rounded-lg">
+          Submit Review
+        </button>
+      </form>
+
+      <!-- Display Reviews and Replies -->
+      <h3 class="text-xl font-bold text-gray-800 mt-8">Reviews ({{ reviews.length }})</h3>
+      <div *ngFor="let review of reviews" class="mt-8">
+        <div class="flex items-start">
+          <img src="https://readymadeui.com/team-2.webp" class="w-12 h-12 rounded-full border-2 border-white" />
+          <div class="ml-3">
+            <h4 class="text-sm font-bold">{{ getUsername(review.userId) }}</h4>
+            <div class="flex space-x-1 mt-1">
+              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                <svg [ngClass]="i < review.rating ? 'fill-orange-400' : 'fill-[#CED5D8]'" class="w-4"
+                  viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                </svg>
+              </ng-container>
+              <p class="text-xs !ml-2 font-semibold">{{ getTimeAgo(review.createdAt)}}</p>
+            </div>
+            <p class="text-xs mt-4">{{ review.content }}</p>
+            <div class="flex items-center mt-4 space-x-4">
+              <button (click)="toggleReplyBox(review.reviewId!, getUsername(review.userId))"
+                class="text-xs text-blue-500 font-semibold flex items-center hover:underline dark:text-gray-400">
+                <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 20 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
+                </svg>
+                Reply
+              </button>
+              <button (click)="toggleReplies(review.reviewId!)" *ngIf="review.replies && review.replies.length > 0"
+                class="text-xs text-blue-500 font-semibold flex items-center space-x-1">
+                <span>{{ collapsedReplies[review.reviewId!] ? 'Show' : 'Hide' }} ({{ review.replies.length }})</span>
+                <svg *ngIf="collapsedReplies[review.reviewId!]" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06-.02L10 10.94l3.72-3.75a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.23 8.23a.75.75 0 01.02-1.06z"
+                    clip-rule="evenodd" />
+                </svg>
+                <svg *ngIf="!collapsedReplies[review.reviewId!]" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M5.23 12.79a.75.75 0 011.06.02L10 9.06l3.72 3.75a.75.75 0 001.08-1.04l-4.25-4.25a.75.75 0 00-1.06 0L5.23 11.73a.75.75 0 00.02 1.06z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            <div class="flex items-center space-x-4 mt-2">
+              <ng-container *ngFor="let type of reactionTypes">
+                <button (click)="reactToReview(review.reviewId!, type)" class="text-xs text-blue-500 font-semibold">
+                  {{ type }} ({{ getReactionCount(review, type) }})
+                </button>                
+              </ng-container>
+            </div>
+            <div *ngIf="!collapsedReplies[review.reviewId!] && review.replies && review.replies.length > 0"
+              class="mt-4 space-y-4 ml-6">
+              <div *ngFor="let reply of review.replies" class="flex items-start">
+                <img src="https://readymadeui.com/team-2.webp" class="w-10 h-10 rounded-full border-2 border-white" />
+                <div class="ml-3">
+                  <h5 class="text-sm font-semibold">{{ getUsername(reply.userId) }}</h5>
+                  <p class="text-xs mt-1">{{ reply.content }}</p>
+                  <p class="text-xs text-gray-500 mt-1">{{ getTimeAgo(reply.createdAt) }}</p>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="replyBoxStates[review.reviewId!]" class="mt-2 ml-6">
+              <textarea [(ngModel)]="replyContent[review.reviewId!]" rows="2" #replyInput
+                class="w-full border border-gray-300 rounded-md p-2 mt-1 text-sm" placeholder="Write a reply...">
+              </textarea>
+              <button (click)="submitReply(review.reviewId!)"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm rounded-md px-4 py-2 mt-2">
+                Submit Reply
+              </button>
+            </div>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <button type="button"
+      class="w-full mt-8 px-4 py-2.5 bg-transparent border border-orange-400 text-gray-800 font-semibold rounded-lg">
+      Read all reviews
+    </button>
   </div>
 </div>

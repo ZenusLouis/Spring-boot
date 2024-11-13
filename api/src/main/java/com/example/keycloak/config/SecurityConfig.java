@@ -27,7 +27,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/auth/**", "/api/products/**", "/api/categories/**", "/uploads/**", "/api/images/**", "/camunda/**")
+                .securityMatcher("/api/auth/**", "/api/products/**", "/api/categories/**", "/uploads/**", "/api/images/**", "/camunda/**", "/api/reviews/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/login", "/api/auth/register", "/camunda/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products/**", "/api/categories/**", "/uploads/**", "/api/images/**").permitAll()
@@ -44,7 +44,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/profile", "/camunda/**", "/api/orders/**", "/api/dashboard/**", "/api/cart/**", "/api/reports/products/**", "/api/users/**")
+                .securityMatcher("/api/profile", "/camunda/**", "/api/orders/**", "/api/dashboard/**", "/api/cart/**", "/api/reports/products/**", "/api/users/**", "/api/reviews/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
