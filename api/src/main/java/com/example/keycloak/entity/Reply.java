@@ -1,49 +1,39 @@
 package com.example.keycloak.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Reviews")
+@Table(name = "replies")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Review {
+public class Reply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long reviewId;
+    Long replyId;
 
     String content;
-    Integer rating;
 
     @Temporal(TemporalType.TIMESTAMP)
     Date createdAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference("user-review")
+    @JsonBackReference("user-reply")
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "pro_id", nullable = false)
-    Product product;
-
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    @JsonManagedReference("review-reply")
-    List<Reply> replies;
-
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    @JsonManagedReference("review-reaction")
-    List<Reaction> reactions;
+    @JoinColumn(name = "review_id", nullable = false)
+    @JsonBackReference("review-reply")
+    Review review;
 
     @PrePersist
     protected void onCreate() {

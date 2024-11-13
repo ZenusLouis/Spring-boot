@@ -63,7 +63,7 @@ public class UserService {
                 user.setUsername(userDetails.getUsername());
             }
             if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(userDetails.getPassword())); // mã hóa mật khẩu mới
+                user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
             }
             if (userDetails.getEmail() != null && !userDetails.getEmail().isEmpty()) {
                 user.setEmail(userDetails.getEmail());
@@ -99,7 +99,7 @@ public class UserService {
     // Validate phone number
     private void validatePhone(String phone) {
         if (phone != null && !PHONE_PATTERN.matcher(phone).matches()) {
-            throw new IllegalArgumentException("Số điện thoại không hợp lệ");
+            throw new IllegalArgumentException("Invalid phone number");
         }
     }
 }
