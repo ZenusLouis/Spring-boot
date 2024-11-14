@@ -1,7 +1,13 @@
 <app-notification [message]="notificationMessage" [type]="notificationType" [show]="showNotification">
 </app-notification>
+<nav class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+  <a routerLink="/products" class="hover:underline text-blue-500 dark:text-blue-300 cursor-pointer">Products</a>
+  <span>/</span>
+  <span class="font-semibold text-gray-800 dark:text-gray-100 first-letter:uppercase">{{ product?.pro_name }}</span>
+</nav>
 <div class="font-sans flex justify-center dark:bg-gray-900 dark:text-gray-100">
   <div class="p-4 lg:max-w-7xl w-full max-w-full mx-auto">
+
     <!-- Main Product Section -->
     <div class="grid items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
       <div
@@ -9,16 +15,31 @@
         <img *ngIf="product" [src]="getImageUrl(product!)" alt="{{ product.pro_name }}"
           class="max-h-full max-w-full object-cover rounded-lg shadow-lg dark:shadow-gray-800">
       </div>
-
-      <!-- Product Details Section -->
       <div class="lg:col-span-2 space-y-6 px-2 md:px-4">
         <h2
           class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 first-letter:uppercase text-center md:text-left">
           {{ product?.pro_name }}</h2>
-        <!-- Average Rating Section -->
         <div class="flex items-center space-x-2 mt-4">
           <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-            <svg [ngClass]="i < averageRating ? 'fill-orange-400' : 'fill-[#CED5D8]'" class="w-5" viewBox="0 0 14 13"
+            <svg *ngIf="i < Math.floor(averageRating)" class="w-5 fill-[#F97316]" viewBox="0 0 14 13"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+            </svg>
+            <svg *ngIf="i === Math.floor(averageRating)" class="w-5" viewBox="0 0 14 13"
+              xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient [attr.id]="'partial-fill-' + i" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" style="stop-color: #F97316;" />
+                  <stop [attr.offset]="(averageRating - i) * 100 + '%'" style="stop-color: #F97316;" />
+                  <stop [attr.offset]="(averageRating - i) * 100 + '%'" style="stop-color: #CED5D8;" />
+                  <stop offset="100%" style="stop-color: #CED5D8;" />
+                </linearGradient>
+              </defs>
+              <path [attr.fill]="'url(#partial-fill-' + i + ')'"
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+            </svg>
+            <svg *ngIf="i > Math.floor(averageRating)" class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13"
               xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
@@ -59,109 +80,115 @@
         </button>
       </div>
     </div>
-
-    <!-- Reviews Section -->
-    <div class="mt-8">
-      <h3 class="text-xl font-bold text-gray-800">Write a Review</h3>
-      <form (submit)="submitReview()" class="space-y-4 mt-4">
-        <div class="review-rating flex space-x-1">
-          <span *ngFor="let rating of [1, 2, 3, 4, 5]; let i = index" (click)="setRating(i + 1)" class="cursor-pointer"
-            [ngClass]="{'text-yellow-500': (i + 1) <= reviewRating, 'text-gray-300': (i + 1) > reviewRating}">
-            &#9733;
-          </span>
+    <div class="flex space-x-8 p-6">
+      <!-- Write Review Section -->
+      <div class="w-1/3 h-80 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Write your Review</h3>
+        <form (submit)="submitReview()" class="space-y-6">
+          <div class="flex justify-center space-x-1 mb-4">
+            <ng-container *ngFor="let rating of [1, 2, 3, 4, 5]; let i = index">
+              <svg (click)="setRating(i + 1)" class="w-8 h-8 cursor-pointer"
+                [ngClass]="(i + 1) <= reviewRating ? 'text-yellow-400' : 'text-gray-300'" fill="currentColor"
+                viewBox="0 0 20 20">
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.172c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.394c-.783-.57-.38-1.81.588-1.81h4.172a1 1 0 00.95-.69l1.286-3.967z" />
+              </svg>
+            </ng-container>
+          </div>
+          <div>
+            <label for="review-content"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Review:</label>
+            <input id="review-content" [(ngModel)]="reviewContent" name="content" rows="4"
+              class="mt-1 block w-full border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 rounded-none px-2 py-3 placeholder-gray-400"
+              placeholder="Write your review..." />
+          </div>
+          <button type="submit"
+            class="w-full px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-md transition duration-200">
+            Submit Review
+          </button>
+        </form>
+      </div>
+      <!-- Reviews Section -->
+      <div class="w-2/3">
+        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+          Customer Feedback ({{ reviews.length }})
+        </h3>
+      
+        <!-- Hiển thị bình luận gần đây nhất chỉ khi showAllReviews là false -->
+        <div *ngIf="!showAllReviews && reviews.length > 0" class="mb-8 pb-8 border-b">
+          <div class="flex items-start space-x-4">
+            <img src="https://readymadeui.com/team-2.webp" alt="User avatar" class="w-12 h-12 rounded-full" />
+            <div class="w-full">
+              <h4 class="text-sm font-bold text-gray-800 dark:text-gray-100 first-letter:uppercase">
+                {{ getUsername(reviews[0].userId) }}
+              </h4>
+              <div class="flex items-center space-x-1 mt-1">
+                <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                  <svg class="w-4 h-4" fill="currentColor" [ngClass]="i < reviews[0].rating ? 'text-yellow-400' : 'text-gray-300'" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.172c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.394c-.783-.57-.38-1.81.588-1.81h4.172a1 1 0 00.95-.69l1.286-3.967z" />
+                  </svg>
+                </ng-container>
+                <span class="text-xs text-gray-500 ml-2">{{ getTimeAgo(reviews[0].createdAt) }}</span>
+              </div>
+              <p class="text-sm text-gray-700 dark:text-gray-300 mt-4">{{ reviews[0].content }}</p>
+              <div class="flex flex-wrap items-center space-x-4 mt-4">
+                <ng-container *ngFor="let reaction of reactionTypes">
+                  <button (click)="reactToReview(reviews[0].reviewId!, reaction.toLowerCase())" class="flex items-center space-x-1">
+                    <img [src]="'assets/images/icons/' + reaction.toLowerCase() + '.png'" [alt]="reaction" class="w-5 h-5" />
+                    <span>{{ getReactionCount(reviews[0], reaction) }}</span>
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label for="review-content" class="block text-sm font-medium text-gray-700">Review:</label>
-          <textarea id="review-content" [(ngModel)]="reviewContent" name="content" rows="4"
-            class="mt-1 block w-full border border-gray-300 rounded-md" placeholder="Write your review..."></textarea>
-        </div>
-        <button type="submit"
-          class="w-full px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white font-semibold rounded-lg">
-          Submit Review
-        </button>
-      </form>
-
-      <!-- Display Reviews and Replies -->
-      <h3 class="text-xl font-bold text-gray-800 mt-8">Reviews ({{ reviews.length }})</h3>
-      <div *ngFor="let review of reviews" class="mt-8">
-        <div class="flex items-start">
-          <img src="https://readymadeui.com/team-2.webp" class="w-12 h-12 rounded-full border-2 border-white" />
-          <div class="ml-3">
-            <h4 class="text-sm font-bold">{{ getUsername(review.userId) }}</h4>
-            <div class="flex space-x-1 mt-1">
-              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-                <svg [ngClass]="i < review.rating ? 'fill-orange-400' : 'fill-[#CED5D8]'" class="w-4"
-                  viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-              </ng-container>
-              <p class="text-xs !ml-2 font-semibold">{{ getTimeAgo(review.createdAt)}}</p>
-            </div>
-            <p class="text-xs mt-4">{{ review.content }}</p>
-            <div class="flex items-center mt-4 space-x-4">
-              <button (click)="toggleReplyBox(review.reviewId!, getUsername(review.userId))"
-                class="text-xs text-blue-500 font-semibold flex items-center hover:underline dark:text-gray-400">
-                <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                  viewBox="0 0 20 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
-                </svg>
-                Reply
-              </button>
-              <button (click)="toggleReplies(review.reviewId!)" *ngIf="review.replies && review.replies.length > 0"
-                class="text-xs text-blue-500 font-semibold flex items-center space-x-1">
-                <span>{{ collapsedReplies[review.reviewId!] ? 'Show' : 'Hide' }} ({{ review.replies.length }})</span>
-                <svg *ngIf="collapsedReplies[review.reviewId!]" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                    d="M5.23 7.21a.75.75 0 011.06-.02L10 10.94l3.72-3.75a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.23 8.23a.75.75 0 01.02-1.06z"
-                    clip-rule="evenodd" />
-                </svg>
-                <svg *ngIf="!collapsedReplies[review.reviewId!]" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                    d="M5.23 12.79a.75.75 0 011.06.02L10 9.06l3.72 3.75a.75.75 0 001.08-1.04l-4.25-4.25a.75.75 0 00-1.06 0L5.23 11.73a.75.75 0 00.02 1.06z"
-                    clip-rule="evenodd" />
-                </svg>
-              </button>
-            </div>
-            <div class="flex items-center space-x-4 mt-2">
-              <ng-container *ngFor="let type of reactionTypes">
-                <button (click)="reactToReview(review.reviewId!, type)" class="text-xs text-blue-500 font-semibold">
-                  {{ type }} ({{ getReactionCount(review, type) }})
-                </button>                
-              </ng-container>
-            </div>
-            <div *ngIf="!collapsedReplies[review.reviewId!] && review.replies && review.replies.length > 0"
-              class="mt-4 space-y-4 ml-6">
-              <div *ngFor="let reply of review.replies" class="flex items-start">
-                <img src="https://readymadeui.com/team-2.webp" class="w-10 h-10 rounded-full border-2 border-white" />
-                <div class="ml-3">
-                  <h5 class="text-sm font-semibold">{{ getUsername(reply.userId) }}</h5>
-                  <p class="text-xs mt-1">{{ reply.content }}</p>
-                  <p class="text-xs text-gray-500 mt-1">{{ getTimeAgo(reply.createdAt) }}</p>
+      
+        <!-- Nút Load More để hiển thị tất cả bình luận -->
+        <button *ngIf="!showAllReviews" (click)="loadMoreReviews()" class="mt-4 text-blue-500">Load more...</button>
+      
+        <!-- Hiển thị tất cả bình luận với phân trang khi showAllReviews là true -->
+        <div *ngIf="showAllReviews" class="reviews-pagination">
+          <div *ngFor="let review of paginatedReviews" class="mb-8 pb-8 border-b">
+            <div class="flex items-start space-x-4">
+              <img src="https://readymadeui.com/team-2.webp" alt="User avatar" class="w-12 h-12 rounded-full" />
+              <div class="w-full">
+                <h4 class="text-sm font-bold text-gray-800 dark:text-gray-100 first-letter:uppercase">
+                  {{ getUsername(review.userId) }}
+                </h4>
+                <div class="flex items-center space-x-1 mt-1">
+                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                    <svg class="w-4 h-4" fill="currentColor" [ngClass]="i < review.rating ? 'text-yellow-400' : 'text-gray-300'" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.172c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.394c-.783-.57-.38-1.81.588-1.81h4.172a1 1 0 00.95-.69l1.286-3.967z" />
+                    </svg>
+                  </ng-container>
+                  <span class="text-xs text-gray-500 ml-2">{{ getTimeAgo(review.createdAt) }}</span>
+                </div>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-4">{{ review.content }}</p>
+                <div class="flex flex-wrap items-center space-x-4 mt-4">
+                  <ng-container *ngFor="let reaction of reactionTypes">
+                    <button (click)="reactToReview(review.reviewId!, reaction.toLowerCase())" class="flex items-center space-x-1">
+                      <img [src]="'assets/images/icons/' + reaction.toLowerCase() + '.png'" [alt]="reaction" class="w-5 h-5" />
+                      <span>{{ getReactionCount(review, reaction) }}</span>
+                    </button>
+                  </ng-container>
                 </div>
               </div>
             </div>
-            <div *ngIf="replyBoxStates[review.reviewId!]" class="mt-2 ml-6">
-              <textarea [(ngModel)]="replyContent[review.reviewId!]" rows="2" #replyInput
-                class="w-full border border-gray-300 rounded-md p-2 mt-1 text-sm" placeholder="Write a reply...">
-              </textarea>
-              <button (click)="submitReply(review.reviewId!)"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm rounded-md px-4 py-2 mt-2">
-                Submit Reply
+          </div>
+      
+          <!-- Pagination controls trong chế độ phân trang -->
+          <div class="flex justify-center mt-4 space-x-4">
+            <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+            <ng-container *ngFor="let page of getPageNumbers()">
+              <button (click)="goToPage(page)" [class.font-bold]="page === currentPage">
+                {{ page }}
               </button>
-            </div>            
+            </ng-container>
+            <button (click)="nextPage()" [disabled]="currentPage * reviewsPerPage >= reviews.length">Next</button>
           </div>
         </div>
       </div>
+      
     </div>
-
-
-    <button type="button"
-      class="w-full mt-8 px-4 py-2.5 bg-transparent border border-orange-400 text-gray-800 font-semibold rounded-lg">
-      Read all reviews
-    </button>
   </div>
 </div>

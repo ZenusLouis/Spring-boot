@@ -1,61 +1,71 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
 export class RegisterComponent {
   userData = {
     username: '',
     password: '',
   };
-  showSuccessModal = false;
-  showErrorModal = false;
-  successMessage = 'Registration successful! Redirecting to login...';
-  errorMessage = 'Registration failed. Please try again.';
+  confirmPassword = '';
+  showModal = false;
+  modalType: 'success' | 'error' = 'success';
+  modalMessage = '';
   countdown = 3;
+  usernameTaken = false;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   onSubmit() {
-    this.apiService.register(this.userData).subscribe({
-      next: (response) => {
-        console.log('Registration successful:', response);
-        this.showSuccessModal = true;
-        this.showErrorModal = false;
-        this.userData = { username: '', password: '' };
-        this.countdown = 3;
+    if (this.userData.password !== this.confirmPassword) {
+      this.showModalWithMessage('error', 'Passwords do not match. Please check and try again.');
+      return;
+    }
   
-        const interval = setInterval(() => {
-          this.countdown -= 1;
-          if (this.countdown === 0) {
-            clearInterval(interval);
-            this.showSuccessModal = false;
-            this.router.navigate(['/auth/login']);
-          }
-        }, 1000);
+    this.apiService.checkUsername(this.userData.username).subscribe({
+      next: (isTaken) => {
+        if (isTaken) {
+          this.showModalWithMessage('error', 'Username is already taken. Please choose another one.');
+        } else {
+          this.apiService.register(this.userData).subscribe({
+            next: () => {
+              this.showModalWithMessage('success', 'Registration successful! Redirecting to login...');
+              setTimeout(() => {
+                this.router.navigate(['/auth/login']);
+              }, this.countdown * 1000);
+            },
+            error: () => {
+              this.showModalWithMessage('error', 'Registration failed. Please try again.');
+            }
+          });
+        }
       },
-      error: (error) => {
-        console.error('Registration error:', error);
-        this.showSuccessModal = false;
-        this.showErrorModal = true;
-        this.countdown = 5;
-  
-        const interval = setInterval(() => {
-          this.countdown -= 1;
-          if (this.countdown === 0) {
-            clearInterval(interval);
-            this.showErrorModal = false;
-          }
-        }, 1000);
+      error: () => {
+        this.showModalWithMessage('error', 'Error checking username. Please try again later.');
       }
     });
+  }  
+
+  private showModalWithMessage(type: 'success' | 'error', message: string) {
+    this.modalType = type;
+    this.modalMessage = message;
+    this.showModal = true;
+    this.countdown = 3;
+
+    const interval = setInterval(() => {
+      this.countdown -= 1;
+      if (this.countdown === 0) {
+        clearInterval(interval);
+        this.showModal = false;
+      }
+    }, 1000);
   }
-    
 }

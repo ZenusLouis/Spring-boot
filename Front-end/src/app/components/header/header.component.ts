@@ -22,6 +22,7 @@ export class HeaderComponent {
   ) {}
 
   ngOnInit(): void {
+    this.initializeDarkMode();
     this.checkAuthentication();
   }
 
@@ -45,8 +46,14 @@ export class HeaderComponent {
 
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
-    const htmlElement = document.documentElement;
-    htmlElement.classList.toggle('dark', this.isDarkMode);
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+    localStorage.setItem('darkMode', JSON.stringify(this.isDarkMode));
+  }
+
+  initializeDarkMode() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    this.isDarkMode = savedDarkMode ? JSON.parse(savedDarkMode) : false;
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
 
   toggleDropdown() {

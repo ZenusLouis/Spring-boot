@@ -6,6 +6,7 @@ import { Product } from '../../models/product.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ReviewService } from '../../services/review.service';
 
 @Component({
   selector: 'app-product-list',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent implements OnInit {
+  Math = Math;
   products: Product[] = [];
   filteredProducts: Product[] = [];
   filterText: string = '';
@@ -27,10 +29,12 @@ export class ProductListComponent implements OnInit {
   itemsPerPage: number = 9;
   imageUrls: { [key: string]: string } = {};
   defaultImageUrl = 'assets/images/default.png';
+  averageRatings: { [productId: number]: number } = {};
 
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
+    private reviewService: ReviewService,
     private router: Router
   ) { }
 
@@ -48,6 +52,7 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe((products: Product[]) => {
       this.products = products.filter((product) => product.pro_status === 1);
       this.filterProducts();
+
       this.products.forEach(product => {
         const imageName = product.pro_image;
         if (imageName) {
@@ -63,9 +68,11 @@ export class ProductListComponent implements OnInit {
         } else {
           this.imageUrls[imageName as string] = this.defaultImageUrl;
         }
+        this.loadAverageRating(product.pro_id);
       });
     });
   }
+
 
   getImageUrl(product: Product): string {
     const imageName = product.pro_image;
@@ -165,6 +172,17 @@ export class ProductListComponent implements OnInit {
   calculateTotalPages(): void {
     this.totalPages = Math.ceil(this.filteredProducts.length / this.itemsPerPage);
   }
+
+  loadAverageRating(productId: number): void {
+    this.reviewService.getAverageRating(productId).subscribe(
+      data => {
+        this.averageRatings[productId] = data;
+      },
+      error => {
+        console.error('Error loading average rating:', error);
+      }
+    );
+  }  
 
   getPaginationNumbers(): (number | string)[] {
     const numbers = [];

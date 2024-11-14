@@ -133,7 +133,9 @@ public class CustomUserStorageProvider implements UserStorageProvider, UserLooku
             return false;
         }
 
-        return passwordEncoder.matches(credential.getChallengeResponse(), storedPasswordHash);
+        boolean matches = passwordEncoder.matches(credential.getChallengeResponse(), storedPasswordHash);
+        logger.info("Password matches for user {}: {}", username, matches);
+        return matches;
     }
 
     private String findPasswordForUser(String username) {
@@ -145,7 +147,9 @@ public class CustomUserStorageProvider implements UserStorageProvider, UserLooku
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return resultSet.getString("password");
+                String passwordHash = resultSet.getString("password");
+                logger.info("Retrieved password hash for user {}: {}", username, passwordHash);
+                return passwordHash;
             }
         } catch (SQLException e) {
             logger.error("Failed to query the password for user: {}", username, e);

@@ -19,9 +19,11 @@ import { User } from '../../models/user.model';
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   imports: [CommonModule, FormsModule, NotificationComponent],
-  standalone: true
+  standalone: true,
+
 })
 export class ProductDetailsComponent implements OnInit {
+  Math = Math;
   product: Product | null = null;
   user: User | null = null;
   category: Category | null = null;
@@ -40,6 +42,11 @@ export class ProductDetailsComponent implements OnInit {
   replyBoxStates: { [reviewId: number]: boolean } = {};
   usernames: { [userId: number]: string } = {};
   collapsedReplies: { [reviewId: number]: boolean } = {};
+  paginatedReviews: Review[] = [];
+  totalReviewsCount: number = 0;
+  showAllReviews: boolean = false;
+  currentPage: number = 1;
+  reviewsPerPage: number = 5;
 
   @ViewChild('replyInput', { static: false }) replyInput!: ElementRef;
 
@@ -59,7 +66,6 @@ export class ProductDetailsComponent implements OnInit {
     this.replyBoxStates = {};
     this.collapsedReplies = {};
   }
-
 
   loadCurrentUser() {
     const userId = Number(localStorage.getItem('user_id'));
@@ -85,6 +91,7 @@ export class ProductDetailsComponent implements OnInit {
           this.loadImage(this.product.pro_image);
           this.loadReviews(productId);
           this.loadAverageRating(productId);
+          this.updatePaginatedReviews();
         },
         error => console.error('Error loading product:', error)
       );
@@ -277,16 +284,17 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   reactToReview(reviewId: number, reactionType: string) {
+    const transformedType = reactionType.toUpperCase();
     if (this.user) {
       const reaction: Reaction = {
         userId: this.user.id,
         reviewId: reviewId,
-        reactionType: reactionType,
+        reactionType: transformedType,
       };
-  
+
       this.reviewService.reactToReview(reviewId, this.user.id, reaction).subscribe(
         () => {
-          this.updateReviewReactionCount(reviewId, reactionType, 'review');
+          this.updateReviewReactionCount(reviewId, transformedType, 'review');
         },
         (error) => {
           console.error('Error reacting to review:', error.error ? error.error.message : error);
@@ -295,27 +303,7 @@ export class ProductDetailsComponent implements OnInit {
       );
     }
   }
-  
-  reactToReply(replyId: number, reactionType: string) {
-    if (this.user) {
-      const reaction: Reaction = {
-        userId: this.user.id,
-        replyId: replyId,
-        reactionType: reactionType,
-      };
-  
-      this.reviewService.reactToReply(replyId, this.user.id, reaction).subscribe(
-        () => {
-          this.updateReviewReactionCount(replyId, reactionType, 'reply');
-        },
-        (error) => {
-          console.error('Error reacting to reply:', error.error ? error.error.message : error);
-          this.showNotificationMessage("Failed to react to reply", 'error');
-        }
-      );
-    }
-  }
-  
+
   updateReviewReactionCount(id: number, reactionType: string, type: 'review' | 'reply') {
     let target: Review | Reply | undefined = undefined;
 
@@ -325,27 +313,56 @@ export class ProductDetailsComponent implements OnInit {
       for (let review of this.reviews) {
         const reply = review.replies?.find(r => r.replyId === id);
         if (reply) {
-          target = reply as Reply;  // Explicitly tell TypeScript this is a Reply
+          target = reply as Reply;
           break;
         }
       }
-    }    
-  
+    }
+
     if (target) {
-      let reaction = target.reactions?.find(r => r.reactionType === reactionType);
-      if (reaction) {
-        reaction.count = (reaction.count || 0) + 1;
-      } else {
-        if (!target.reactions) target.reactions = [];
-        target.reactions.push({ reactionType, count: 1 });
+      switch (reactionType) {
+        case 'LIKE':
+          target.likeCount = (target.likeCount || 0) + 1;
+          break;
+        case 'LOVE':
+          target.loveCount = (target.loveCount || 0) + 1;
+          break;
+        case 'HAHA':
+          target.hahaCount = (target.hahaCount || 0) + 1;
+          break;
+        case 'WOW':
+          target.wowCount = (target.wowCount || 0) + 1;
+          break;
+        case 'SAD':
+          target.sadCount = (target.sadCount || 0) + 1;
+          break;
+        case 'ANGRY':
+          target.angryCount = (target.angryCount || 0) + 1;
+          break;
+        default:
+          break;
       }
     }
-  } 
-  
-  getReactionCount(item: Review | Reply, reactionType: string): number {
-    return item.reactions?.find(r => r.reactionType === reactionType)?.count || 0;
   }
-   
+
+  getReactionCount(item: Review | Reply, reactionType: string): number {
+    switch (reactionType) {
+      case 'LIKE':
+        return item.likeCount || 0;
+      case 'LOVE':
+        return item.loveCount || 0;
+      case 'HAHA':
+        return item.hahaCount || 0;
+      case 'WOW':
+        return item.wowCount || 0;
+      case 'SAD':
+        return item.sadCount || 0;
+      case 'ANGRY':
+        return item.angryCount || 0;
+      default:
+        return 0;
+    }
+  }
 
   getUsername(userId: number): string {
     return this.usernames[userId] || 'Unknown';
@@ -369,5 +386,41 @@ export class ProductDetailsComponent implements OnInit {
 
     const days = Math.floor(hours / 24);
     return days === 1 ? "1 day ago" : `${days} days ago`;
+  }
+
+  loadMoreReviews() {
+    this.showAllReviews = true;
+    this.currentPage = 1;
+    this.updatePaginatedReviews();
+  }
+
+  updatePaginatedReviews(): void {
+    const startIndex = (this.currentPage - 1) * this.reviewsPerPage;
+    const endIndex = startIndex + this.reviewsPerPage;
+    this.paginatedReviews = this.reviews.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage * this.reviewsPerPage < this.reviews.length) {
+      this.currentPage++;
+      this.updatePaginatedReviews();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedReviews();
+    }
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = Math.ceil(this.reviews.length / this.reviewsPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+    this.updatePaginatedReviews();
   }
 }

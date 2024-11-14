@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,21 +19,29 @@ export class ProfileComponent implements OnInit {
   phone: string = '';
   address: string = '';
   isUpdating: boolean = false;
-  selectedSection: string = 'profileInfo'; // Default section to show
+  selectedSection: string = 'profileInfo';
   showModal: boolean = false;
   modalMessage: string = '';
   isSuccess: boolean = true;
 
+  // Variables for change password
+  oldPassword: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+  otp: string = '';
+  otpSent: boolean = false;
+
   constructor(
     private userService: UserService,
+    private apiService: ApiService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const section = params.get('section');
-      this.selectedSection = section === 'update' ? 'accountInfo' : 'profileInfo';
+      this.selectedSection = section === 'update' ? 'accountInfo' : section === 'changePassword' ? 'changePassword' : 'profileInfo';
     });
     this.loadUserProfile();
   }
@@ -90,9 +99,75 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  // Request to change password
+  requestChangePassword() {
+    if (this.newPassword !== this.confirmPassword) {
+      this.modalMessage = 'New password and confirm password do not match.';
+      this.isSuccess = false;
+      this.showModal = true;
+      return;
+    }
+
+    const requestData = {
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword,
+      confirmPassword: this.confirmPassword,
+      email: this.userInfo.email
+    };
+
+    this.apiService.requestChangePassword(requestData).subscribe({
+      next: () => {
+        this.otpSent = true;  // Hiển thị form nhập OTP
+        this.modalMessage = 'OTP has been sent to your email.';
+        this.isSuccess = true;
+        this.showModal = true;
+      },
+      error: (error) => {
+        this.modalMessage = 'Failed to request password change. Please try again.';
+        this.isSuccess = false;
+        this.showModal = true;
+        console.error('Error requesting password change', error);
+      }
+    });
+  }
+
+  // Verify OTP and change password
+  // ProfileComponent
+  verifyOtp() {
+    const otpData = {
+      email: this.userInfo.email,
+      otp: this.otp,
+      newPassword: this.newPassword  // Gửi mật khẩu mới cùng với OTP
+    };
+
+    this.apiService.verifyOtpAndChangePassword(otpData).subscribe({
+      next: () => {
+        this.modalMessage = 'Password changed successfully!';
+        this.isSuccess = true;
+        this.showModal = true;
+        this.resetPasswordFields();
+      },
+      error: (error) => {
+        this.modalMessage = 'Failed to verify OTP or change password.';
+        this.isSuccess = false;
+        this.showModal = true;
+        console.error('Error verifying OTP or changing password', error);
+      }
+    });
+  }
+
+  // Reset password fields after success
+  resetPasswordFields() {
+    this.oldPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
+    this.otp = '';
+    this.otpSent = false;
+  }
+
   selectSection(section: string) {
     this.selectedSection = section;
-    this.router.navigate(['/profile', section === 'profileInfo' ? 'infor' : 'update']);
+    this.router.navigate(['/profile', section === 'profileInfo' ? 'infor' : section === 'accountInfo' ? 'update' : 'changePassword']);
   }
 
   closeModal() {

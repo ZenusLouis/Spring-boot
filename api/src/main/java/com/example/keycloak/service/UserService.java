@@ -1,13 +1,14 @@
 package com.example.keycloak.service;
 
+import com.example.keycloak.dto.ChangePasswordRequest;
+import com.example.keycloak.dto.VerifyOtpRequest;
 import com.example.keycloak.entity.User;
 import com.example.keycloak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -19,14 +20,23 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService; // Service gửi email
+
+    private Map<String, String> otpStorage = new HashMap<>();
+
     // Regular expression for phone number validation (10-15 digits)
     private static final Pattern PHONE_PATTERN =
             Pattern.compile("^[0-9]{10,15}$");
 
     public User registerUser(User user) {
-        validatePhone(user.getPhone());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
+        }else {
+            validatePhone(user.getPhone());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return userRepository.save(user);
+        }
     }
 
     public User findByUsername(String username) {
@@ -81,9 +91,6 @@ public class UserService {
             if (userDetails.getAddress() != null && !userDetails.getAddress().isEmpty()) {
                 user.setAddress(userDetails.getAddress());
             }
-            if (userDetails.getBudget() != null) {
-                user.setBudget(userDetails.getBudget());
-            }
             return userRepository.save(user);
         });
     }
@@ -101,5 +108,40 @@ public class UserService {
         if (phone != null && !PHONE_PATTERN.matcher(phone).matches()) {
             throw new IllegalArgumentException("Invalid phone number");
         }
+    }
+
+    public String requestChangePassword(ChangePasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new IllegalArgumentException("New password and confirm password do not match");
+        }
+
+        String otp = String.format("%06d", new Random().nextInt(999999));
+        otpStorage.put(user.getEmail(), otp);
+        emailService.sendOtpEmail(user.getEmail(), otp);
+
+        return "OTP has been sent to your email";
+    }
+
+    public String verifyOtpAndChangePassword(VerifyOtpRequest request) {
+        String storedOtp = otpStorage.get(request.getEmail());
+        if (storedOtp == null || !storedOtp.equals(request.getOtp())) {
+            throw new IllegalArgumentException("Invalid or expired OTP");
+        }
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        otpStorage.remove(request.getEmail());
+
+        return "Password has been changed successfully";
+    }
+
+    public boolean isUsernameTaken(String username) {
+        return userRepository.existsByUsername(username);
     }
 }

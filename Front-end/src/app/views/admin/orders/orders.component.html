@@ -57,8 +57,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Pagination Controls -->
     <div class="flex items-center justify-between mt-6">
       <button (click)="previousPage()" [disabled]="currentPage === 1"
         class="px-4 py-2 text-sm bg-white border rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
@@ -71,27 +69,19 @@
       </button>
     </div>
   </section>
-
-  <!-- Order Details Modal -->
   <div *ngIf="selectedOrder" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
     (click)="closeOrderModal()">
     <div class="bg-white rounded-lg shadow-lg max-w-2xl w-full p-8 relative space-y-8"
       (click)="$event.stopPropagation()">
-
-      <!-- Close Button -->
       <button (click)="closeOrderModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-
-      <!-- Header with Order ID and Date -->
       <div class="flex items-center justify-between">
         <h2 class="text-2xl font-semibold">Order Details - ID: {{ selectedOrder.orderId }}</h2>
         <p class="text-gray-600 text-md">{{ selectedOrder.orderDate | date: 'dd-MMM-yyyy hh:mm a' }}</p>
       </div>
-
-      <!-- Customer and Status Information Card -->
       <div class="bg-gray-50 rounded-lg p-4 shadow-inner space-y-4">
         <div class="flex items-center justify-between">
           <p class="text-lg font-medium">Customer: <span class="font-normal capitalize">{{ selectedOrder.firstName }} {{
@@ -103,8 +93,6 @@
             <span class="font-semibold">{{ selectedOrder.status }}</span>
           </span>
         </div>
-
-        <!-- Optional Phone and Address Fields -->
         <div *ngIf="selectedOrder.phone || selectedOrder.address" class="grid grid-cols-2 gap-4">
           <div *ngIf="selectedOrder.phone">
             <p class="text-gray-500 font-medium">Phone:</p>
@@ -116,8 +104,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Items List with Table Format -->
       <div class="space-y-2">
         <h3 class="text-xl font-semibold mb-2">Items</h3>
         <div class="overflow-x-auto">
@@ -141,13 +127,9 @@
           </table>
         </div>
       </div>
-
-      <!-- Total Amount -->
       <div class="flex justify-end items-center mt-6">
         <p class="text-xl font-bold">Total: ${{ totalOrderValue.toFixed(2) }}</p>
       </div>
-
-      <!-- Close Button -->
       <div class="flex justify-center mt-6">
         <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-8 rounded-md font-semibold"
           (click)="closeOrderModal()">Close

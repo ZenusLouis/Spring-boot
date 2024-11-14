@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
+    @Query("SELECT r FROM Review r WHERE r.product.pro_id = :productId ORDER BY r.createdAt DESC")
+    List<Review> findReviewsByProductIdOrderByCreatedAtDesc(@Param("productId") Long productId);
+
     @Query("SELECT r FROM Review r WHERE r.product.pro_id = :productId")
     List<Review> findReviewsByProductId(@Param("productId") Long productId);
 }

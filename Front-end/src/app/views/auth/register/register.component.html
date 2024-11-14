@@ -8,7 +8,8 @@
   <!-- Register Form Section -->
   <div class="flex w-full flex-col md:w-1/2 dark:bg-gray-900">
     <div class="flex justify-center pt-12 md:-mb-24 md:justify-start md:pl-12">
-      <a class="border-b-gray-700 dark:border-b-gray-300 border-b-4 pb-2 text-2xl font-bold text-gray-900 dark:text-gray-100" href="#">Ecommerce</a>
+      <a class="border-b-gray-700 dark:border-b-gray-300 border-b-4 pb-2 text-2xl font-bold text-gray-900 dark:text-gray-100"
+        href="#">Ecommerce</a>
     </div>
     <div class="lg:w-[28rem] mx-auto my-auto flex flex-col justify-center pt-8 md:justify-start md:px-6 md:pt-0">
       <p class="text-left text-3xl font-bold text-gray-900 dark:text-gray-100">Register</p>
@@ -21,21 +22,20 @@
             class="w-full p-2 border-b-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
             required type="text" />
         </div>
-        <div class="flex flex-col pt-4">
-          <input name="password" [(ngModel)]="userData.password" placeholder="Password"
+        
+        <div class="flex flex-col pt-4 relative">
+          <input [type]="'password'" name="password" [(ngModel)]="userData.password"
+            placeholder="Password"
             class="w-full p-2 border-b-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
-            required type="password" />
+            required />
         </div>
-        <!-- <div class="flex flex-col pt-4">
-          <input name="confirmPassword" [(ngModel)]="userData" placeholder="Confirm Password"
+        <div class="flex flex-col pt-4 relative">
+          <input [type]="'password'" name="confirmPassword" [(ngModel)]="confirmPassword"
+            placeholder="Confirm Password"
             class="w-full p-2 border-b-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
-            required type="password" #confirmPassword="ngModel" />
-          <div *ngIf="registerForm.submitted && userData.password !== userData.password"
-            class="text-red-500 dark:text-red-400">
-            Passwords do not match.
-          </div>
-        </div> -->
-        <button type="submit" [disabled]="!registerForm.valid"
+            required />
+        </div>
+        <button type="submit"
           class="w-full rounded-lg bg-gray-900 dark:bg-blue-600 px-4 py-2 text-center text-base font-semibold text-white shadow-md ring-gray-500 ring-offset-2 transition focus:ring-2 mt-4 hover:bg-gray-800 dark:hover:bg-blue-500">
           Register
         </button>
@@ -43,35 +43,24 @@
       <div class="py-12 text-center">
         <p class="whitespace-nowrap text-gray-600 dark:text-gray-400">
           Already have an account?
-          <a href="/auth/login" class="underline-offset-4 font-semibold text-gray-900 dark:text-gray-100 underline">Login here.</a>
+          <a href="/auth/login"
+            class="underline-offset-4 font-semibold text-gray-900 dark:text-gray-100 underline">Login here.</a>
         </p>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Success Modal -->
-<div *ngIf="showSuccessModal" class="fixed inset-0 flex items-center justify-center z-50">
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-md mx-auto text-center">
-    <p class="text-green-600 dark:text-green-400 font-semibold">{{ successMessage }}</p>
-    <p class="text-gray-500 dark:text-gray-300">Redirecting in {{ countdown }} seconds...</p>
-    <button (click)="showSuccessModal = false; countdown = 0"
-      class="mt-4 bg-green-500 dark:bg-green-600 text-white py-2 px-4 rounded hover:bg-green-600 dark:hover:bg-green-700">
-      Close
-    </button>
-  </div>
-  <div class="fixed inset-0 bg-gray-900 dark:bg-black opacity-50"></div>
-</div>
-
-<!-- Error Modal -->
-<div *ngIf="showErrorModal" class="fixed inset-0 flex items-center justify-center z-50">
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-md mx-auto text-center">
-    <p class="text-red-600 dark:text-red-400 font-semibold">{{ errorMessage }}</p>
-    <p class="text-gray-500 dark:text-gray-300">Closing in {{ countdown }} seconds...</p>
-    <button (click)="showErrorModal = false; countdown = 0"
-      class="mt-4 bg-red-500 dark:bg-red-600 text-white py-2 px-4 rounded hover:bg-red-600 dark:hover:bg-red-700">
-      Close
-    </button>
-  </div>
-  <div class="fixed inset-0 bg-gray-900 dark:bg-black opacity-50"></div>
+  <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="fixed inset-0 bg-gray-900 opacity-50"></div>
+    <div class="relative p-6 max-w-md mx-auto text-center rounded-lg shadow-lg"
+      [ngClass]="{'bg-green-100 dark:bg-green-800': modalType === 'success', 'bg-red-100 dark:bg-red-800': modalType === 'error'}">
+      <p [ngClass]="{'text-green-600 dark:text-green-400': modalType === 'success', 'text-red-600 dark:text-red-400': modalType === 'error'}"
+        class="font-semibold">{{ modalMessage }}</p>
+      <p class="text-gray-500 dark:text-gray-300 mt-2">Closing in {{ countdown }} seconds...</p>
+      <button (click)="showModal = false" class="w-full mt-4 py-2"
+        [ngClass]="{'bg-green-500 dark:bg-green-600 hover:bg-green-700 text-white rounded-md': modalType === 'success', 'bg-red-500 dark:bg-red-600 hover:bg-red-700 text-white rounded-md': modalType === 'error'}">
+        Close
+      </button>
+    </div>
+  </div> 
 </div>

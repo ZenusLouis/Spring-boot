@@ -40,7 +40,6 @@ public class Reply {
         this.createdAt = new Date();
     }
 
-    // Reaction count fields
     @Column(name = "like_count", nullable = false, columnDefinition = "int default 0")
     int likeCount;
 

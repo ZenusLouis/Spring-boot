@@ -2,11 +2,9 @@
     <!-- Filter Section -->
     <div class="w-full md:w-1/4 bg-white dark:bg-gray-800 p-4 rounded-lg mb-4 md:mb-0">
         <h2 class="text-xl font-bold mb-4 dark:text-gray-100">Filter</h2>
-        
         <!-- Search by Name -->
         <input type="text" [(ngModel)]="filterText" (input)="filterProducts()" placeholder="Search products..."
             class="border dark:border-gray-600 p-2 rounded w-full mb-4 dark:bg-gray-700 dark:text-gray-100" />
-
         <!-- Price Range Filter Using One Range Input -->
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1 dark:text-gray-100">Price Range</label>
@@ -16,43 +14,82 @@
                 <span>Max: ${{ priceRange }}</span>
             </span>
         </div>
-
         <!-- Sort Order -->
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1 dark:text-gray-100">Sort By</label>
-            <select [(ngModel)]="sortOrder" (change)="filterProducts()" class="border dark:border-gray-600 p-2 rounded w-full dark:bg-gray-700 dark:text-gray-100">
+            <select [(ngModel)]="sortOrder" (change)="filterProducts()"
+                class="border dark:border-gray-600 p-2 rounded w-full dark:bg-gray-700 dark:text-gray-100">
                 <option value="">Select Sort Order</option>
                 <option value="asc">Price: Low to High</option>
                 <option value="desc">Price: High to Low</option>
             </select>
         </div>
-
         <!-- Category Filter -->
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1 dark:text-gray-100">Category</label>
-            <select [(ngModel)]="selectedCategory" (change)="filterProducts()" class="border dark:border-gray-600 p-2 rounded w-full dark:bg-gray-700 dark:text-gray-100">
+            <select [(ngModel)]="selectedCategory" (change)="filterProducts()"
+                class="border dark:border-gray-600 p-2 rounded w-full dark:bg-gray-700 dark:text-gray-100">
                 <option value="">Select Category</option>
                 <option *ngFor="let category of categories" [ngValue]="category">{{ category.cate_name }}</option>
             </select>
         </div>
     </div>
-
     <!-- Product List Section -->
     <div class="w-full md:w-3/4 p-6 bg-gray-100 dark:bg-gray-900">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
             <div *ngFor="let product of getPaginatedProducts()"
-                class="relative bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 group overflow-hidden">
+                class="relative bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden group">
                 <img *ngIf="getImageUrl(product)" [src]="getImageUrl(product)" alt="{{ product.pro_name }}"
-                    class="w-full h-40 object-cover rounded-md mb-2" />
-                <h3 class="text-lg font-semibold first-letter:uppercase dark:text-gray-100">{{ product.pro_name }}</h3>
-                <p class="text-gray-600 dark:text-gray-300 first-letter:uppercase">{{ product.pro_des }}</p>
-                <p class="font-bold mt-2 dark:text-gray-100">Price: ${{ product.pro_price }}</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Stock: {{ product.pro_stock }}</p>
-                
-                <div class="absolute inset-0 bg-black bg-opacity-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-lg"></div>
-                <button
-                    class="absolute bottom-4 left-1/2 transform -translate-x-1/2 translate-y-full opacity-0 transition-transform duration-300 group-hover:translate-y-0 group-hover:opacity-100 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded"
-                    (click)="viewProductDetails(product.pro_id)">
+                    class="w-full h-48 object-cover" />
+                <div
+                    class="absolute inset-0 bg-black bg-opacity-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                </div>
+                <div class="p-4 relative z-10">
+                    <h3 class="text-lg font-semibold dark:text-gray-100 mb-1 first-letter:uppercase">{{ product.pro_name
+                        }}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 first-letter:uppercase mb-2">{{ product.pro_des
+                        }}</p>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">${{ product.pro_price }}</span>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Stock: {{ product.pro_stock }}</span>
+                    </div>
+
+                    <!-- Rating Section -->
+                    <div *ngIf="averageRatings[product.pro_id] !== undefined" class="flex items-center space-x-1 mb-3">
+                        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                            <svg *ngIf="i < Math.floor(averageRatings[product.pro_id])" class="w-5 fill-[#F97316]"
+                                viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                            </svg>
+                            <svg *ngIf="i === Math.floor(averageRatings[product.pro_id])" class="w-5"
+                                viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient [attr.id]="'partial-fill-' + i + '-' + product.pro_id" x1="0" y1="0"
+                                        x2="1" y2="0">
+                                        <stop offset="0%" style="stop-color: #F97316;" />
+                                        <stop [attr.offset]="(averageRatings[product.pro_id] - i) * 100 + '%'"
+                                            style="stop-color: #F97316;" />
+                                        <stop [attr.offset]="(averageRatings[product.pro_id] - i) * 100 + '%'"
+                                            style="stop-color: #CED5D8;" />
+                                        <stop offset="100%" style="stop-color: #CED5D8;" />
+                                    </linearGradient>
+                                </defs>
+                                <path [attr.fill]="'url(#partial-fill-' + i + '-' + product.pro_id + ')'"
+                                    d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                            </svg>
+                            <svg *ngIf="i > Math.floor(averageRatings[product.pro_id])" class="w-5 fill-[#CED5D8]"
+                                viewBox="0 0 14 13" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                            </svg>
+                        </ng-container>
+                        <span class="text-gray-700 dark:text-gray-300 ml-2">{{ averageRatings[product.pro_id].toFixed(1)
+                            }} / 5</span>
+                    </div>
+                </div>
+                <button (click)="viewProductDetails(product.pro_id)"
+                    class="absolute left-1/2 bottom-1/2 transform -translate-x-1/2 translate-y-1/2 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 z-20 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded">
                     View Details
                 </button>
             </div>
