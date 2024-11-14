@@ -72,4 +72,10 @@ export class LoginComponent {
     this.showModal = false;
     clearInterval(this.countdownInterval);
   }
+
+  //Reset password with keycloak
+  goToKeycloakForgotPassword() {
+    const keycloakForgotPasswordUrl = 'http://localhost:8080/realms/myrealm/login-actions/reset-credentials';
+    window.location.href = keycloakForgotPasswordUrl;
+  }
 }

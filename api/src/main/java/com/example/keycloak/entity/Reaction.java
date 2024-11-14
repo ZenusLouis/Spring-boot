@@ -35,6 +35,4 @@ public class Reaction {
 
     @Enumerated(EnumType.STRING)
     ReactionType reactionType;
-
-
 }

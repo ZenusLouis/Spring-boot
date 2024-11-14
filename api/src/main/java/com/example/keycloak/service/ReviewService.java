@@ -40,7 +40,7 @@ public class ReviewService {
 
     @Transactional
     public List<ReviewDTO> getReviewsByProductId(Long productId) {
-        List<Review> reviews = reviewRepository.findReviewsByProductId(productId);
+        List<Review> reviews = reviewRepository.findReviewsByProductIdOrderByCreatedAtDesc(productId);
         return reviews.stream().map(ReviewDTO::new).collect(Collectors.toList());
     }
 

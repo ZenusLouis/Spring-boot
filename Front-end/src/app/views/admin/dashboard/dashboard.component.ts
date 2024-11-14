@@ -102,8 +102,6 @@ export class DashboardComponent implements OnInit {
     if (this.chart) {
       this.chart.destroy();
     }
-
-    // Create gradient color for bars
     const ctx = this.myChart.nativeElement.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(99, 102, 241, 0.8)');

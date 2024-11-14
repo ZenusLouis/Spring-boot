@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule, CommonModule],
 })
 export class CategoriesComponent implements OnInit {
-  categories: Category[] = [];  // Full list of categories
-  paginatedCategories: Category[] = [];  // Categories shown on the current page
+  categories: Category[] = [];
+  paginatedCategories: Category[] = [];
   category: Category = { cate_id: 0, cate_name: '' };
   isEditMode: boolean = false;
   isModalOpen: boolean = false;
@@ -25,17 +25,15 @@ export class CategoriesComponent implements OnInit {
     this.loadCategories();
   }
 
-  // Calculate the end of the displayed count for the current page
   getDisplayedCount(): number {
     return Math.min(this.currentPage * this.itemsPerPage, this.categories.length);
   }
 
-  // Load all categories and apply pagination
   loadCategories(): void {
     this.categoryService.getCategories().subscribe(
       (data: Category[]) => {
         this.categories = data;
-        this.applyPagination();  // Paginate after loading data
+        this.applyPagination();
       },
       error => {
         console.error('Error fetching categories', error);
@@ -43,13 +41,12 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  // Create a new category
   createCategory(): void {
     this.categoryService.createCategory(this.category).subscribe(
       () => {
-        this.loadCategories();  // Refresh categories list
+        this.loadCategories();
         this.resetForm();
-        this.toggleModal();  // Close modal after creation
+        this.toggleModal();
       },
       error => {
         console.error('Error creating category', error);
@@ -57,21 +54,19 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  // Edit an existing category
   editCategory(cate: Category): void {
     this.category = { ...cate };
     this.isEditMode = true;
-    this.toggleModal();  // Open modal for editing
+    this.toggleModal();
   }
 
-  // Update an existing category
   updateCategory(): void {
     this.categoryService.updateCategory(this.category).subscribe(
       () => {
         this.loadCategories();
         this.resetForm();
         this.isEditMode = false;
-        this.toggleModal();  // Close modal after update
+        this.toggleModal();
       },
       error => {
         console.error('Error updating category', error);
@@ -79,7 +74,6 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  // Delete a category
   deleteCategory(cate_id: number): void {
     this.categoryService.deleteCategory(cate_id).subscribe(
       () => {
@@ -91,18 +85,15 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  // Reset the form
   resetForm(): void {
     this.category = { cate_id: 0, cate_name: '' };
     this.isEditMode = false;
   }
 
-  // Toggle modal visibility
   toggleModal(): void {
     this.isModalOpen = !this.isModalOpen;
   }
 
-  // Navigate to the next page
   nextPage() {
     if (this.currentPage * this.itemsPerPage < this.categories.length) {
       this.currentPage++;
@@ -110,7 +101,6 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  // Navigate to the previous page
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -118,7 +108,6 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  // Apply pagination to the categories
   applyPagination() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.paginatedCategories = this.categories.slice(startIndex, startIndex + this.itemsPerPage);
