@@ -6,15 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductDTO {
+public class ContactDTO {
     Long id;
-    String name;
-    String description;
-    String image;
-    Double price;
-    String categoryName;
+    String message;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+    Long userId;
+    String userEmail;
+    String username;
+    String firstName;
+    String lastName;
 }

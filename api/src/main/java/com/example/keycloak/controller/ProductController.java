@@ -58,6 +58,7 @@ public class ProductController {
         ObjectMapper objectMapper = new ObjectMapper();
         Product productDetails = objectMapper.readValue(productJson, Product.class);
 
+        // Handle new file upload
         if (file != null && !file.isEmpty()) {
             String fileName = productService.handleFileUpload(file, UPLOAD_DIR);
             productDetails.setPro_image(fileName);
@@ -66,6 +67,7 @@ public class ProductController {
         Product updatedProduct = productService.updateProduct(id, productDetails);
         return ResponseEntity.ok(updatedProduct);
     }
+
 
     // Delete a product
     @DeleteMapping("/{id}")

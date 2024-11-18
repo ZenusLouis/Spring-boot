@@ -7,6 +7,9 @@ import com.example.keycloak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -28,6 +31,12 @@ public class UserService {
     // Regular expression for phone number validation (10-15 digits)
     private static final Pattern PHONE_PATTERN =
             Pattern.compile("^[0-9]{10,15}$");
+
+
+    public Page<User> getUsers(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").ascending());
+        return userRepository.findAll(pageRequest);
+    }
 
     public User registerUser(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
@@ -143,5 +152,9 @@ public class UserService {
 
     public boolean isUsernameTaken(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    public long countUsers() {
+        return userRepository.count();
     }
 }

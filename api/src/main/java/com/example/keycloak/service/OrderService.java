@@ -12,11 +12,12 @@ import com.example.keycloak.repository.OrderItemRepository;
 import com.example.keycloak.repository.ProductRepository;
 import com.example.keycloak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.camunda.bpm.engine.RuntimeService;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,8 +40,11 @@ public class OrderService {
     @Autowired
     private RuntimeService runtimeService;
 
-    public List<OrderDTO> getUserOrders(Long userId) {
-        List<Order> orders = orderRepository.findByUserId(userId);
+    public List<OrderDTO> getUserOrders(Long userId, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase("asc")
+                ? Sort.by(Sort.Direction.ASC, "orderDate")
+                : Sort.by(Sort.Direction.DESC, "orderDate");
+        List<Order> orders = orderRepository.findByUserId(userId, sort);
         return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
@@ -160,5 +164,9 @@ public class OrderService {
                 .sum();
         user.setBudget(user.getBudget() + refundAmount);
         userRepository.save(user);
+    }
+
+    public List<Map<String, Object>> getTopProductsByOrderCount() {
+        return orderRepository.findTopProductsByOrderCount();
     }
 }

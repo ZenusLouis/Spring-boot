@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,6 +27,8 @@ public class ProductService {
 
     @Autowired
     private ImportService importService;
+
+    private static final String UPLOAD_DIR = "uploads/products/";
 
     // Fetch products sorted by creation date
     public List<Product> getProductsSortedByCreatedDate() {
@@ -46,7 +48,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Update product details
+    // Update a product
     public Product updateProduct(Long id, Product productDetails) {
         Product existingProduct = getProductById(id);
 
@@ -56,21 +58,56 @@ public class ProductService {
         if (productDetails.getPro_stock() != null) existingProduct.setPro_stock(productDetails.getPro_stock());
         if (productDetails.getPro_status() != null) existingProduct.setPro_status(productDetails.getPro_status());
 
-        if (productDetails.getPro_image() != null) {
-            deleteFile(existingProduct.getPro_image());
+        // Handle image update and delete old image
+        if (productDetails.getPro_image() != null && !productDetails.getPro_image().isEmpty()) {
+            String oldImagePath = existingProduct.getPro_image();
             existingProduct.setPro_image(productDetails.getPro_image());
+
+            if (oldImagePath != null && !oldImagePath.isEmpty()) {
+                deleteFile(UPLOAD_DIR + oldImagePath);
+            }
         }
 
+        // Validate category and update
         Category category = validateCategory(productDetails.getCategory().getCate_id());
         existingProduct.setCategory(category);
+
         return productRepository.save(existingProduct);
     }
 
-    // Delete a product and its associated image
+    // Handle file upload
+    public String handleFileUpload(MultipartFile file, String uploadDir) throws IOException {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("File cannot be null or empty");
+        }
+
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        Path path = Paths.get(uploadDir, fileName);
+        Files.createDirectories(path.getParent());
+        Files.write(path, file.getBytes());
+        return fileName;
+    }
+
+    // Delete a file
+    public void deleteFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                Files.delete(path);
+                System.out.println("Deleted file: " + filePath);
+            } else {
+                System.err.println("File not found: " + filePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to delete file: " + filePath, e);
+        }
+    }
+
+    // Delete a product
     public void deleteProduct(Long id, String uploadDir) {
         Product product = getProductById(id);
-        if (product.getPro_image() != null) {
-            deleteFile(Paths.get(uploadDir, product.getPro_image()).toString());
+        if (product.getPro_image() != null && !product.getPro_image().isEmpty()) {
+            deleteFile(uploadDir + product.getPro_image());
         }
         productRepository.delete(product);
     }
@@ -80,31 +117,9 @@ public class ProductService {
         importService.importProductsFromExcel(file);
     }
 
-    // Handle file upload
-    public String handleFileUpload(MultipartFile file, String uploadDir) throws IOException {
-        if (!file.isEmpty()) {
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            Path path = Paths.get(uploadDir, fileName);
-            Files.createDirectories(path.getParent());
-            Files.write(path, file.getBytes());
-            return fileName;
-        }
-        return null;
-    }
-
     // Validate category existence
     private Category validateCategory(Long cateId) {
         return categoryRepository.findById(cateId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id :: " + cateId));
-    }
-
-    // Utility to delete a file
-    private void deleteFile(String filePath) {
-        try {
-            Path path = Paths.get(filePath);
-            Files.deleteIfExists(path);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to delete file: " + filePath, e);
-        }
     }
 }

@@ -15,35 +15,15 @@ import java.util.Map;
 
 public class JasperUtil {
 
-    /**
-     * Xuất báo cáo với định dạng động (PDF, XLSX, DOCX).
-     *
-     * @param templateStream InputStream của template Jasper (.jasper).
-     * @param format Định dạng đầu ra của báo cáo (pdf, xlsx, docx).
-     * @param parameters Tham số cho báo cáo.
-     * @param dataSource DataSource kết nối với cơ sở dữ liệu.
-     * @return Mảng byte chứa dữ liệu báo cáo xuất ra theo định dạng yêu cầu.
-     * @throws Exception Khi có lỗi trong quá trình tạo báo cáo.
-     */
     public static byte[] exportReport(InputStream templateStream, String format, Map<String, Object> parameters, DataSource dataSource) throws Exception {
-        // Nạp template .jasper từ InputStream
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(templateStream);
 
-        // Kết nối tới cơ sở dữ liệu và thực thi báo cáo với tham số truyền vào
         try (Connection connection = dataSource.getConnection()) {
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
             return exportToFormat(jasperPrint, format);
         }
     }
 
-    /**
-     * Xuất báo cáo ra định dạng cụ thể.
-     *
-     * @param jasperPrint Đối tượng JasperPrint chứa nội dung báo cáo.
-     * @param format Định dạng đầu ra (pdf, xlsx, docx).
-     * @return Mảng byte chứa dữ liệu báo cáo theo định dạng.
-     * @throws Exception Khi có lỗi trong quá trình xuất báo cáo.
-     */
     private static byte[] exportToFormat(JasperPrint jasperPrint, String format) throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Exporter<ExporterInput, ?, ?, ?> exporter;
@@ -52,7 +32,13 @@ public class JasperUtil {
             case "pdf":
                 exporter = new JRPdfExporter();
                 ((JRPdfExporter) exporter).setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+                SimplePdfExporterConfiguration pdfConfig = new SimplePdfExporterConfiguration();
+                pdfConfig.setCompressed(true);
+                pdfConfig.setTagged(true);
+                ((JRPdfExporter) exporter).setConfiguration(pdfConfig);
+
                 break;
+            case "excel":
             case "xlsx":
                 exporter = new JRXlsxExporter();
                 ((JRXlsxExporter) exporter).setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));

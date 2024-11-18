@@ -1,6 +1,6 @@
 <div
   class="p-8 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
     <div
       class="bg-blue-50 dark:bg-blue-900 shadow-md rounded-lg p-4 flex items-center space-x-4 hover:scale-105 transition-transform border-l-4 border-blue-500">
       <div class="p-2 bg-blue-500 dark:bg-blue-700 rounded-full text-white">
@@ -14,8 +14,9 @@
         </svg>
       </div>
       <div>
-        <p class="text-sm text-gray-600 dark:text-gray-400">Products</p>
-        <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ animatedProductCount | number }}</p>
+        <p class="text-xs sm:text-sm md:text-base font-bold text-gray-600 dark:text-gray-400">Products</p>
+        <p class="text-xl sm:text-2xl md:text-xl font-bold text-blue-600 dark:text-blue-400">{{ animatedProductCount |
+          number }}</p>
       </div>
     </div>
     <div
@@ -31,16 +32,17 @@
         </svg>
       </div>
       <div>
-        <p class="text-sm text-gray-600 dark:text-gray-400">Categories</p>
-        <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ animatedCategoryCount | number }}</p>
+        <p class="text-xs sm:text-sm md:text-base font-bold text-gray-600 dark:text-gray-400">Categories</p>
+        <p class="text-xl sm:text-2xl md:text-xl font-bold text-green-600 dark:text-green-400">{{ animatedCategoryCount
+          | number }}</p>
       </div>
     </div>
     <div
       class="bg-yellow-50 dark:bg-yellow-900 shadow-md rounded-lg p-4 flex items-center space-x-4 hover:scale-105 transition-transform border-l-4 border-yellow-500">
       <div class="p-2 bg-yellow-500 dark:bg-yellow-700 rounded-full text-white">
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 115.53 122.88"
-          style="enable-background:new 0 0 115.53 122.88" xml:space="preserve" class="w-5 h-5">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 115.53 122.88" style="enable-background:new 0 0 115.53 122.88"
+          xml:space="preserve" class="w-5 h-5">
           <g>
             <path
               d="M97.65,36.83c0.95,0,1.77,0.58,2.13,1.4l15.49,23.96c0.2,0.38,0.28,0.79,0.25,1.18l-1.03,57.19c0,1.27-1.03,2.31-2.31,2.31 v0.01H3.55c-1.28,0-2.32-1.04-2.32-2.32L0,63.26l0-0.02l0-0.02v0l0-0.02l0-0.02l0-0.02l0-0.01l0-0.02l0-0.03v0l0-0.01l0-0.04 l0-0.01l0-0.01l0-0.04l0-0.01l0-0.01l0.01-0.04l0,0l0-0.02l0.01-0.04l0,0l0,0l0.01-0.04l0-0.02v0l0.01-0.04l0.01-0.02l0-0.02 l0-0.02l0-0.01l0-0.01l0.01-0.02l0.01-0.02l0-0.01l0-0.01l0.01-0.02L0.1,62.6l0-0.01l0-0.01l0.01-0.02l0-0.01l0.01-0.03l0.01-0.02 l0.01-0.02l0.01-0.02l0.01-0.02l0.01-0.02v0l0.01-0.02l0.01-0.02v0l0.02-0.04l0.01-0.02l0.02-0.03l0,0l0.01-0.02l0.01-0.01l0-0.01 l0.01-0.02l0.01-0.02l0.01-0.02l0.01-0.02l0.02-0.03l0.01-0.02l0,0l0.02-0.03l0.01-0.02l0.01-0.02l0.01-0.02l15.7-23.99 c0.41-0.78,1.22-1.23,2.05-1.23v-0.01l31.05,0L67.16,0l29.47,13.19L85.25,36.83H97.65L97.65,36.83z M46.88,41.47h-27.4L6.15,60.96 h103.28l-13.18-19.5H83.03l-3.49,7.26l2.56,0c1.28,0,2.32,1.04,2.32,2.32s-1.04,2.32-2.32,2.32H36.84c-1.28,0-2.32-1.04-2.32-2.32 c0-1.28,1.04-2.32,2.32-2.3h3.9l2.58,0L46.88,41.47L46.88,41.47z M74.04,48.73l13.7-28.58c-2.3-1.12-3.25-3.91-2.13-6.21L73.21,9.1 c-1.12,2.3-3.91,3.25-6.21,2.13l-17.66,36.1l0,0c0.69,0.34,1.26,0.83,1.69,1.41C58.49,48.73,66.76,48.73,74.04,48.73L74.04,48.73z M61.76,31.35c1.79-3.66,6.19-5.17,9.85-3.38c3.66,1.79,5.17,6.19,3.38,9.85c-1.79,3.66-6.19,5.17-9.85,3.38 C61.48,39.42,59.97,35.01,61.76,31.35L61.76,31.35z M4.63,65.59l1.23,52.65h104.01l1.04-52.65H4.63L4.63,65.59z" />
@@ -48,46 +50,93 @@
         </svg>
       </div>
       <div>
-        <p class="text-sm text-gray-600 dark:text-gray-400">Income</p>
-        <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">${{ animatedIncome | number }}</p>
+        <p class="text-xs sm:text-sm md:text-base font-bold text-gray-600 dark:text-gray-400">Income</p>
+        <p class="text-xl sm:text-2xl md:text-xl font-bold text-yellow-600 dark:text-yellow-400">${{ animatedIncome |
+          number }}</p>
+      </div>
+    </div>
+    <div
+      class="bg-purple-50 dark:bg-purple-900 shadow-md rounded-lg p-4 flex items-center space-x-4 hover:scale-105 transition-transform border-l-4 border-purple-500">
+      <div class="p-2 bg-purple-500 dark:bg-purple-700 rounded-full text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 2a5 5 0 100 10 5 5 0 000-10zM2 18a8 8 0 1116 0H2z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div>
+        <p class="text-xs sm:text-sm md:text-base font-bold text-gray-600 dark:text-gray-400">Total Users</p>
+        <p class="text-xl sm:text-2xl md:text-xl font-bold text-purple-600 dark:text-purple-400">{{ animatedUserCount }}
+        </p>
       </div>
     </div>
   </div>
-  <section class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 lg:p-8 mb-10">
-    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6">
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 text-center lg:text-left mb-4 lg:mb-0">Monthly
-        Income Overview</h2>
-      <div class="flex items-center gap-4">
-        <div class="flex flex-col w-full sm:w-auto">
-          <label for="viewType" class="font-medium text-gray-700 dark:text-gray-300 mb-1">View By:</label>
-          <select id="viewType" [(ngModel)]="viewType" (change)="onViewTypeChange()"
-            class="border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg p-2 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-500">
-            <option value="year">Year</option>
-            <option value="quarter">Quarter</option>
-            <option value="month">Month</option>
-          </select>
-        </div>
-        <div *ngIf="viewType === 'month'" class="flex flex-col w-full sm:w-auto">
-          <label for="selectedMonth" class="font-medium text-gray-700 dark:text-gray-300 mb-1">Month:</label>
-          <select id="selectedMonth" [(ngModel)]="selectedMonth" (change)="loadChartData()"
-            class="border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg p-2 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-500">
-            <option *ngFor="let month of monthNames" [value]="month">{{ month }}</option>
-          </select>
-        </div>
-        <div *ngIf="viewType === 'quarter'" class="flex flex-col w-full sm:w-auto">
-          <label for="selectedQuarter" class="font-medium text-gray-700 dark:text-gray-300 mb-1">Quarter:</label>
-          <select id="selectedQuarter" [(ngModel)]="selectedQuarter" (change)="loadChartData()"
-            class="border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg p-2 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-500">
-            <option value="Q1">Q1 (Jan - Mar)</option>
-            <option value="Q2">Q2 (Apr - Jun)</option>
-            <option value="Q3">Q3 (Jul - Sep)</option>
-            <option value="Q4">Q4 (Oct - Dec)</option>
-          </select>
+  <div class="flex flex-col lg:flex-row lg:space-x-8 space-y-8 lg:space-y-0 mx-auto px-4 lg:px-0 max-w-screen-xl mt-10">
+    <!-- Income Overview Section -->
+    <section class="bg-white dark:bg-gray-800 shadow-md w-full lg:w-2/3 rounded-lg p-6 lg:p-8 mb-10">
+      <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6 space-y-4 lg:space-y-0">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 text-center lg:text-left">Income Overview</h2>
+        <div class="flex flex-col md:flex-row md:space-x-4 items-center">
+          <div class="w-full sm:w-auto">
+            <label for="viewType" class="font-medium text-gray-700 dark:text-gray-300 mb-1">View By:</label>
+            <select id="viewType" [(ngModel)]="viewType" (change)="onViewTypeChange()"
+              class="border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg p-2 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-500 w-full">
+              <option value="year">Year</option>
+              <option value="quarter">Quarter</option>
+              <option value="month">Month</option>
+            </select>
+          </div>
+
+          <!-- Month and Quarter Selectors -->
+          <div *ngIf="viewType === 'month'" class="w-full sm:w-auto mt-4 md:mt-0">
+            <label for="selectedMonth" class="font-medium text-gray-700 dark:text-gray-300 mb-1">Month:</label>
+            <select id="selectedMonth" [(ngModel)]="selectedMonth" (change)="loadChartData()"
+              class="border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg p-2 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-500 w-full">
+              <option *ngFor="let month of monthNames" [value]="month">{{ month }}</option>
+            </select>
+          </div>
+
+          <div *ngIf="viewType === 'quarter'" class="w-full sm:w-auto mt-4 md:mt-0">
+            <label for="selectedQuarter" class="font-medium text-gray-700 dark:text-gray-300 mb-1">Quarter:</label>
+            <select id="selectedQuarter" [(ngModel)]="selectedQuarter" (change)="loadChartData()"
+              class="border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg p-2 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-500 w-full">
+              <option value="Q1">Q1 (Jan - Mar)</option>
+              <option value="Q2">Q2 (Apr - Jun)</option>
+              <option value="Q3">Q3 (Jul - Sep)</option>
+              <option value="Q4">Q4 (Oct - Dec)</option>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="relative h-96 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-700 shadow-inner">
-      <canvas #myChart class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full"></canvas>
-    </div>
-  </section>
+
+      <div class="relative h-96 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-700 shadow-inner">
+        <canvas #myChart class="absolute top-0 transform w-full h-full"></canvas>
+      </div>
+    </section>
+
+    <!-- Top Products Section -->
+    <section class="w-full lg:w-1/3 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 lg:p-8">
+      <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
+        Top 5 Orders
+      </h2>
+    
+      <!-- List of Top Products -->
+      <ul *ngIf="topProducts.length > 0; else noData" class="space-y-2">
+        <li *ngFor="let product of topProducts"
+          class="flex flex-col bg-white dark:bg-gray-700 rounded-lg p-4 shadow-md transition-transform transform hover:scale-105">
+          <div class="flex justify-between items-center mb-2">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ product.productName }}</p>
+            <span class="text-indigo-500 font-bold">#{{ product.productId }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <p class="text-gray-600 dark:text-gray-400">Total Orders:</p>
+            <p class="text-gray-700 dark:text-gray-300 font-semibold">{{ product.totalOrders }}</p>
+          </div>
+        </li>
+      </ul>
+    
+      <!-- Fallback Message for No Data -->
+      <ng-template #noData>
+        <p class="text-center text-gray-500 dark:text-gray-400">No top products available at the moment.</p>
+      </ng-template>
+    </section>    
+  </div>
 </div>

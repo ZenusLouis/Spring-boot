@@ -27,8 +27,10 @@ public class OrderController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<OrderDTO>> getUserOrders(@PathVariable Long userId) {
-        List<OrderDTO> orders = orderService.getUserOrders(userId);
+    public ResponseEntity<List<OrderDTO>> getUserOrders(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
+        List<OrderDTO> orders = orderService.getUserOrders(userId, sortDirection);
         return ResponseEntity.ok(orders);
     }
 

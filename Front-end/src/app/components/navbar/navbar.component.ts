@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.checkAuthentication();
@@ -50,15 +50,18 @@ export class NavbarComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['/auth/login']);
+    const returnUrl = this.router.url;
+    this.router.navigate(['/auth/login'], { queryParams: { redirectUrl: returnUrl } });
   }
-
-  logout() {
+  logout() {  
     localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id');
     this.isAuthenticated = false;
     this.userInfo = null;
+    localStorage.clear();
     this.router.navigate(['/']);
   }
+
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;

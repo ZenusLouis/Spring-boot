@@ -29,12 +29,20 @@
 
             <!-- Export Button with Dropdown -->
             <div class="relative">
-                <button (click)="toggleExportOptions()"
+                <button (click)="toggleExportOptions()" title="Export"
                     class="flex items-center gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 10l-2-2m0 0l-2 2m2-2v6m5-6h3a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h3" />
+                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                        fill="currentColor" viewBox="0 0 114.31 122.88">
+                        <defs>
+                            <style>
+                                .cls-1 {
+                                    fill-rule: evenodd;
+                                }
+                            </style>
+                        </defs>
+                        <title>upload-file</title>
+                        <path class="cls-1"
+                            d="M69.88,71.65h35.78a8.68,8.68,0,0,1,8.65,8.66v33.92a8.67,8.67,0,0,1-8.65,8.65H69.88a8.67,8.67,0,0,1-8.65-8.65V80.31a8.68,8.68,0,0,1,8.65-8.66ZM26.26,78.12a3.35,3.35,0,0,1-3.17-3.46,3.29,3.29,0,0,1,3.17-3.45H42.9a3.34,3.34,0,0,1,3.17,3.45,3.29,3.29,0,0,1-3.17,3.46Zm75.19-18.46h-7V8.1a1.17,1.17,0,0,0-.33-.82A1.2,1.2,0,0,0,93.34,7H8.06a1.15,1.15,0,0,0-.82.33,1.13,1.13,0,0,0-.33.82v96.35a1.13,1.13,0,0,0,1.15,1.16H45.17v7H8.1A8.16,8.16,0,0,1,0,104.45V8.1A7.93,7.93,0,0,1,2.39,2.39,8,8,0,0,1,8.1,0H93.39A7.92,7.92,0,0,1,99.1,2.39a8,8,0,0,1,2.39,5.71c0,39.79,0-9.25,0,51.56ZM26.22,33.12a3.36,3.36,0,0,1-3.17-3.46,3.3,3.3,0,0,1,3.17-3.46H75.14a3.35,3.35,0,0,1,3.17,3.46,3.3,3.3,0,0,1-3.17,3.46Zm0,22.5a3.36,3.36,0,0,1-3.17-3.46,3.29,3.29,0,0,1,3.17-3.45H75.14a3.34,3.34,0,0,1,3.17,3.45,3.29,3.29,0,0,1-3.17,3.46ZM75.65,99.16a2.41,2.41,0,0,1-2.08-1c-1.1-1.64.4-3.26,1.43-4.41,3-3.23,9.61-9.08,11.07-10.79a2.4,2.4,0,0,1,3.76,0c1.51,1.76,8.53,8,11.33,11.1,1,1.1,2.18,2.59,1.16,4.1a2.42,2.42,0,0,1-2.08,1H95v9.4a3,3,0,0,1-2.95,3H83.82a3,3,0,0,1-2.95-3v-9.4Z" />
                     </svg>
                     Export
                 </button>
@@ -79,12 +87,20 @@
             </div>
 
             <!-- Import Products Button -->
-            <button (click)="openImportModal()"
+            <button (click)="openImportModal()" title="Import"
                 class="flex items-center gap-2 text-white bg-green-700 hover:bg-green-800 px-4 py-2 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M16 13v8h-4v-8H8l4-4 4 4zM4 8V4h16v4" />
+                <svg id="Layer_1" class="w-6 h-6" fill="currentColor" data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114.31 122.88">
+                    <defs>
+                        <style>
+                            .cls-1 {
+                                fill-rule: evenodd;
+                            }
+                        </style>
+                    </defs>
+                    <title>download-file</title>
+                    <path class="cls-1"
+                        d="M69.88,71.65h35.78a8.68,8.68,0,0,1,8.65,8.66v33.92a8.67,8.67,0,0,1-8.65,8.65H69.88a8.67,8.67,0,0,1-8.65-8.65V80.31a8.68,8.68,0,0,1,8.65-8.66ZM26.26,78.12a3.35,3.35,0,0,1-3.17-3.46,3.29,3.29,0,0,1,3.17-3.45H42.9a3.34,3.34,0,0,1,3.17,3.45,3.29,3.29,0,0,1-3.17,3.46Zm75.19-18.46h-7V8.1a1.17,1.17,0,0,0-.33-.82A1.2,1.2,0,0,0,93.34,7H8.06a1.15,1.15,0,0,0-.82.33,1.13,1.13,0,0,0-.33.82v96.35a1.13,1.13,0,0,0,1.15,1.16H45.17v7H8.1A8.16,8.16,0,0,1,0,104.45V8.1A7.93,7.93,0,0,1,2.39,2.39,8,8,0,0,1,8.1,0H93.39A7.92,7.92,0,0,1,99.1,2.39a8,8,0,0,1,2.39,5.71c0,39.79,0-9.25,0,51.56ZM26.22,33.12a3.36,3.36,0,0,1-3.17-3.46,3.3,3.3,0,0,1,3.17-3.46H75.14a3.35,3.35,0,0,1,3.17,3.46,3.3,3.3,0,0,1-3.17,3.46Zm0,22.5a3.36,3.36,0,0,1-3.17-3.46,3.29,3.29,0,0,1,3.17-3.45H75.14a3.34,3.34,0,0,1,3.17,3.45,3.29,3.29,0,0,1-3.17,3.46Zm74,39.25a2.44,2.44,0,0,1,2.08,1c1.1,1.64-.4,3.27-1.43,4.41-3,3.23-9.61,9.08-11.07,10.79a2.39,2.39,0,0,1-3.76,0c-1.51-1.75-8.53-8-11.33-11.1-1-1.09-2.18-2.58-1.16-4.1a2.45,2.45,0,0,1,2.08-1H80.9V85.48a3,3,0,0,1,2.95-3h8.22a3,3,0,0,1,3,3v9.39Z" />
                 </svg>
                 Import
             </button>
@@ -109,20 +125,52 @@
             <tr *ngFor="let product of paginatedProducts"
                 class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                 <td class="w-4 p-4">{{ product.pro_id }}</td>
-                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{
+                <td scope="row"
+                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white first-letter:uppercase">
+                    {{
                     product.pro_name }}</td>
-                <td class="px-6 py-4">{{ product.pro_des }}</td>
-                <td class="px-6 py-4">{{ product.pro_price | currency }}</td>
+                <td class="px-6 py-4 first-letter:uppercase">{{ product.pro_des }}</td>
+                <td class="px-6 py-4 text-left font-medium text-green-500">{{ product.pro_price | currency }}</td>
                 <td class="px-6 py-4">{{ product.pro_stock }}</td>
                 <td class="px-6 py-4">{{ product.pro_status === 1 ? 'Available' : 'Not Available' }}</td>
-                <td class="px-6 py-4">{{ product.category.cate_name }}</td>
+                <td class="px-6 py-4 first-letter:uppercase">{{ product.category.cate_name }}</td>
                 <td class="px-6 py-4">
                     <img *ngIf="getImageUrl(product)" [src]="getImageUrl(product)" [alt]="product.pro_name"
                         class="w-16 h-16 object-cover" />
                 </td>
                 <td class="px-6 py-4">
-                    <button class="text-yellow-500" (click)="openEditModal(product)">Edit</button>
-                    <button class="text-red-600 ml-2" (click)="deleteProduct(product.pro_id!)">Delete</button>
+                    <button
+                        class="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
+                        (click)="openEditModal(product)">Edit
+                        <svg version="1.1" id="Layer_1" class="w-4 h-4 ml-1" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                            y="0px" viewBox="0 0 121.48 122.88" style="enable-background:new 0 0 121.48 122.88"
+                            xml:space="preserve">
+                            <style type="text/css">
+                                .st0 {
+                                    fill-rule: evenodd;
+                                    clip-rule: evenodd;
+                                }
+                            </style>
+                            <g>
+                                <path class="st0"
+                                    d="M96.84,2.22l22.42,22.42c2.96,2.96,2.96,7.8,0,10.76l-12.4,12.4L73.68,14.62l12.4-12.4 C89.04-0.74,93.88-0.74,96.84,2.22L96.84,2.22z M70.18,52.19L70.18,52.19l0,0.01c0.92,0.92,1.38,2.14,1.38,3.34 c0,1.2-0.46,2.41-1.38,3.34v0.01l-0.01,0.01L40.09,88.99l0,0h-0.01c-0.26,0.26-0.55,0.48-0.84,0.67h-0.01 c-0.3,0.19-0.61,0.34-0.93,0.45c-1.66,0.58-3.59,0.2-4.91-1.12h-0.01l0,0v-0.01c-0.26-0.26-0.48-0.55-0.67-0.84v-0.01 c-0.19-0.3-0.34-0.61-0.45-0.93c-0.58-1.66-0.2-3.59,1.11-4.91v-0.01l30.09-30.09l0,0h0.01c0.92-0.92,2.14-1.38,3.34-1.38 c1.2,0,2.41,0.46,3.34,1.38L70.18,52.19L70.18,52.19L70.18,52.19z M45.48,109.11c-8.98,2.78-17.95,5.55-26.93,8.33 C-2.55,123.97-2.46,128.32,3.3,108l9.07-32v0l-0.03-0.03L67.4,20.9l33.18,33.18l-55.07,55.07L45.48,109.11L45.48,109.11z M18.03,81.66l21.79,21.79c-5.9,1.82-11.8,3.64-17.69,5.45c-13.86,4.27-13.8,7.13-10.03-6.22L18.03,81.66L18.03,81.66z" />
+                            </g>
+                        </svg>
+                    </button>
+                    <button
+                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
+                        (click)="deleteProduct(product.pro_id!)">Delete
+                        <svg version="1.1" id="Layer_1" class="w-4 h-4 ml-1" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                            y="0px" width="108.294px" height="122.88px" viewBox="0 0 108.294 122.88"
+                            enable-background="new 0 0 108.294 122.88" xml:space="preserve">
+                            <g>
+                                <path
+                                    d="M4.873,9.058h33.35V6.2V6.187c0-0.095,0.002-0.186,0.014-0.279c0.075-1.592,0.762-3.037,1.816-4.086l-0.007-0.007 c1.104-1.104,2.637-1.79,4.325-1.806l0.023,0.002V0h0.031h19.884h0.016c0.106,0,0.207,0.009,0.309,0.022 c1.583,0.084,3.019,0.76,4.064,1.81c1.102,1.104,1.786,2.635,1.803,4.315l-0.003,0.021h0.014V6.2v2.857h32.909h0.017 c0.138,0,0.268,0.014,0.401,0.034c1.182,0.106,2.254,0.625,3.034,1.41l0.004,0.007l0.005-0.007 c0.851,0.857,1.386,2.048,1.401,3.368l-0.002,0.032h0.014v0.032v10.829c0,1.472-1.195,2.665-2.667,2.665h-0.07H2.667 C1.195,27.426,0,26.233,0,24.762v-0.063V13.933v-0.014c0-0.106,0.004-0.211,0.018-0.315v-0.021 c0.089-1.207,0.624-2.304,1.422-3.098l-0.007-0.002C2.295,9.622,3.49,9.087,4.81,9.069l0.032,0.002V9.058H4.873L4.873,9.058z M77.79,49.097h-5.945v56.093h5.945V49.097L77.79,49.097z M58.46,49.097h-5.948v56.093h5.948V49.097L58.46,49.097z M39.13,49.097 h-5.946v56.093h5.946V49.097L39.13,49.097z M10.837,31.569h87.385l0.279,0.018l0.127,0.007l0.134,0.011h0.009l0.163,0.023 c1.363,0.163,2.638,0.789,3.572,1.708c1.04,1.025,1.705,2.415,1.705,3.964c0,0.098-0.009,0.193-0.019,0.286l-0.002,0.068 l-0.014,0.154l-7.393,79.335l-0.007,0.043h0.007l-0.016,0.139l-0.051,0.283l-0.002,0.005l-0.002,0.018 c-0.055,0.331-0.12,0.646-0.209,0.928l-0.007,0.022l-0.002,0.005l-0.009,0.018l-0.023,0.062l-0.004,0.021 c-0.118,0.354-0.264,0.698-0.432,1.009c-1.009,1.88-2.879,3.187-5.204,3.187H18.13l-0.247-0.014v0.003l-0.011-0.003l-0.032-0.004 c-0.46-0.023-0.889-0.091-1.288-0.202c-0.415-0.116-0.818-0.286-1.197-0.495l-0.009-0.002l-0.002,0.002 c-1.785-0.977-2.975-2.882-3.17-5.022L4.88,37.79l-0.011-0.125l-0.011-0.247l-0.004-0.116H4.849c0-1.553,0.664-2.946,1.707-3.971 c0.976-0.955,2.32-1.599,3.756-1.726l0.122-0.004v-0.007l0.3-0.013l0.104,0.002V31.569L10.837,31.569z M98.223,36.903H10.837 v-0.007l-0.116,0.004c-0.163,0.022-0.322,0.106-0.438,0.222c-0.063,0.063-0.104,0.132-0.104,0.179h-0.007l0.007,0.118l7.282,79.244 h-0.002l0.002,0.012c0.032,0.376,0.202,0.691,0.447,0.825l-0.002,0.004l0.084,0.032l0.063,0.012h0.077h72.695 c0.207,0,0.399-0.157,0.518-0.377l0.084-0.197l0.054-0.216l0.014-0.138h0.005l7.384-79.21L98.881,37.3 c0-0.045-0.041-0.111-0.103-0.172c-0.12-0.118-0.286-0.202-0.451-0.227L98.223,36.903L98.223,36.903z M98.334,36.901h-0.016H98.334 L98.334,36.901z M98.883,37.413v-0.004V37.413L98.883,37.413z M104.18,37.79l-0.002,0.018L104.18,37.79L104.18,37.79z M40.887,14.389H5.332v7.706h97.63v-7.706H67.907h-0.063c-1.472,0-2.664-1.192-2.664-2.664V6.2V6.168h0.007 c-0.007-0.22-0.106-0.433-0.259-0.585c-0.137-0.141-0.324-0.229-0.521-0.252h-0.082h-0.016H44.425h-0.031V5.325 c-0.213,0.007-0.422,0.104-0.576,0.259l-0.004-0.004l-0.007,0.004c-0.131,0.134-0.231,0.313-0.259,0.501l0.007,0.102V6.2v5.524 C43.554,13.196,42.359,14.389,40.887,14.389L40.887,14.389z" />
+                            </g>
+                        </svg>
+                    </button>
                 </td>
             </tr>
         </tbody>
@@ -266,7 +314,7 @@
 
             <input type="file" #fileInput (change)="onFileSelect($event)" accept=".xlsx,.csv,.xml,.ods"
                 class="hidden" />
-            <p class="text-xs font-medium text-gray-400 mt-2">Accepted formats: .xlsx, .csv, .xml, .ods</p>
+            <p class="text-xs font-medium text-gray-400 mt-2">Accepted formats: .xlsx</p>
         </div>
         <div class="flex justify-end mt-4">
             <button (click)="importProducts()"

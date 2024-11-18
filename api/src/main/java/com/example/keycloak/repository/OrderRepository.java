@@ -1,6 +1,8 @@
 package com.example.keycloak.repository;
 
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,7 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAll();
 
     @Query("SELECT o FROM Order o WHERE o.user.id = :userId")
-    List<Order> findByUserId(@Param("userId") Long userId);
+    List<Order> findByUserId(@Param("userId") Long userId, Sort sort);
 
     @EntityGraph(attributePaths = {"orderItems", "orderItems.product"})
     Optional<Order> findById(Long id);
@@ -61,4 +63,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("UPDATE Order o SET o.status = :status WHERE o.order_id = :orderId")
     void updateOrderStatus(@Param("orderId") Long orderId, @Param("status") String status);
 
+    @Query("""
+                SELECT p.pro_id AS productId, p.pro_name AS productName, COUNT(DISTINCT o.order_id) AS totalOrders
+                FROM OrderItem oi
+                JOIN oi.product p
+                JOIN oi.order o
+                GROUP BY p.pro_id, p.pro_name
+                ORDER BY totalOrders DESC
+                LIMIT 5
+            """)
+    List<Map<String, Object>> findTopProductsByOrderCount();
 }

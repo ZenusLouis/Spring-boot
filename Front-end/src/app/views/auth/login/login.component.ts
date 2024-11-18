@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { KeycloakService } from 'keycloak-angular';
@@ -20,35 +20,61 @@ export class LoginComponent {
   showModal = false;
   countdown = 2;
   countdownInterval: any;
+  redirectUrl: string | null = null;
+  isLoading = false;
+  showErrorModal = false;
+  errorMessage = '';
 
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private keycloakService: KeycloakService
-  ) {}
+    private keycloakService: KeycloakService,
+    private route: ActivatedRoute,
+  ) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.redirectUrl = params['redirectUrl'] || '/home';
+    });
+  }
 
   onSubmit() {
+    this.isLoading = true;
+  
     this.apiService.login(this.credentials).subscribe({
       next: (response: any) => {
         if (response.access_token) {
           localStorage.setItem('access_token', response.access_token);
-          this.router.navigate(['/home']);
+          this.router.navigateByUrl(this.redirectUrl!);
         }
       },
       error: (error) => {
+        this.isLoading = false;
         if (
           error.error.error === 'invalid_grant' &&
           error.error.error_description === 'Account is not fully set up'
         ) {
           this.showModal = true;
           this.startCountdown();
+        } else if (error.status === 401) {
+          this.errorMessage = 'Invalid username or password. Please try again.';
+          this.showErrorModal = true;
+        } else if (error.status === 500) {
+          this.errorMessage = 'Internal server error. Please try again later.';
+          this.showErrorModal = true;
         } else {
-          this.loginError = true;
-          console.error('Login error:', error);
+          this.errorMessage = `Unexpected error: ${error.error?.message || 'Unknown error'}`;
+          this.showErrorModal = true;
         }
+        console.error('Login error:', error);
       },
     });
   }
+  
+  closeErrorModal() {
+    this.showErrorModal = false;
+    this.errorMessage = '';
+  }  
 
   startCountdown() {
     this.countdownInterval = setInterval(() => {
@@ -73,7 +99,6 @@ export class LoginComponent {
     clearInterval(this.countdownInterval);
   }
 
-  //Reset password with keycloak
   goToKeycloakForgotPassword() {
     const keycloakForgotPasswordUrl = 'http://localhost:8080/realms/myrealm/login-actions/reset-credentials';
     window.location.href = keycloakForgotPasswordUrl;

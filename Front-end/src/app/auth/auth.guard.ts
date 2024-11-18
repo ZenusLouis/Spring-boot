@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   ): boolean {
     const token = localStorage.getItem('access_token');
     if (!token || this.isTokenExpired(token)) {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/login'], { queryParams: { redirectUrl: state.url } });
       return false;
     }
     const requiredRoles = route.data['roles'] as Array<string>;
