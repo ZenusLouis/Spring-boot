@@ -19,7 +19,7 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
   filterText: string = '';
-  priceRange: number = 1000;
+  priceRange: number = 1000;     
   minPrice: number = 0;
   sortOrder: string = '';
   selectedCategory: Category | null = null;

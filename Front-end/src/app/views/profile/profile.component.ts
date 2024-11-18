@@ -30,7 +30,11 @@ export class ProfileComponent implements OnInit {
   confirmPassword: string = '';
   otp: string = '';
   otpSent: boolean = false;
+  countdown: number = 60;
+  isResendEnabled: boolean = false;
+  countdownInterval: any;
 
+  
   constructor(
     private userService: UserService,
     private apiService: ApiService,
@@ -107,18 +111,20 @@ export class ProfileComponent implements OnInit {
       this.showModal = true;
       return;
     }
-
+  
     const requestData = {
       oldPassword: this.oldPassword,
       newPassword: this.newPassword,
       confirmPassword: this.confirmPassword,
       email: this.userInfo.email
     };
-
+  
+    this.otpSent = true;
+    this.startCountdown();
+    this.modalMessage = 'OTP has been sent to your email.';
+  
     this.apiService.requestChangePassword(requestData).subscribe({
       next: () => {
-        this.otpSent = true;  // Hiển thị form nhập OTP
-        this.modalMessage = 'OTP has been sent to your email.';
         this.isSuccess = true;
         this.showModal = true;
       },
@@ -130,14 +136,13 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-
-  // Verify OTP and change password
+  
   // ProfileComponent
   verifyOtp() {
     const otpData = {
       email: this.userInfo.email,
       otp: this.otp,
-      newPassword: this.newPassword  // Gửi mật khẩu mới cùng với OTP
+      newPassword: this.newPassword
     };
 
     this.apiService.verifyOtpAndChangePassword(otpData).subscribe({
@@ -156,6 +161,48 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  startCountdown() {
+    this.countdown = 60;
+    this.isResendEnabled = false;
+  
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
+  
+    this.countdownInterval = setInterval(() => {
+      if (this.countdown > 0) {
+        this.countdown--;
+      } else {
+        clearInterval(this.countdownInterval);
+        this.isResendEnabled = true;
+      }
+    }, 1000);
+  }
+  
+  resendOtp() {
+    const defaultRequestData = {
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword,
+      confirmPassword: this.confirmPassword,
+      email: this.userInfo.email
+    };
+  
+    this.apiService.requestChangePassword(defaultRequestData).subscribe({
+      next: () => {
+        this.modalMessage = 'OTP has been resent to your email.';
+        this.isSuccess = true;
+        this.showModal = true;
+        this.startCountdown();
+      },
+      error: (error) => {
+        this.modalMessage = 'Failed to resend OTP. Please try again.';
+        this.isSuccess = false;
+        this.showModal = true;
+        console.error('Error resending OTP', error);
+      }
+    });
+  }  
+
   // Reset password fields after success
   resetPasswordFields() {
     this.oldPassword = '';
@@ -172,5 +219,11 @@ export class ProfileComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
   }
 }

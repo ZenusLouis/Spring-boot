@@ -10,12 +10,11 @@ import java.util.List;
 public class FileTypeValidator {
 
     private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList(
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX
-            "application/vnd.ms-excel",                                         // XLS
-            "text/csv",                                                          // CSV
-            "application/vnd.oasis.opendocument.spreadsheet",                    // ODS
-            "application/xml",                                                   // XML
-            "text/xml"                                                     // XML alternative
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.ms-excel",
+            "text/csv",
+            "application/vnd.oasis.opendocument.spreadsheet",
+            "text/xml"
     );
 
     public static void validateExcelOrSvgFile(MultipartFile file) {

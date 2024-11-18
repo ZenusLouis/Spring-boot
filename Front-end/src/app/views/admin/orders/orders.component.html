@@ -1,140 +1,135 @@
-<div class="admin-orders">
-  <h2 class="text-2xl font-bold mb-4 dark:text-gray-100">Orders</h2>
-  <section class="container px-4 mx-auto">
-    <div class="flex flex-col">
-      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-          <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead class="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th class="py-3.5 px-4 text-sm font-bold text-left text-gray-800 dark:text-gray-100">ID</th>
-                  <th class="px-4 py-3.5 text-sm font-bold text-left text-gray-800 dark:text-gray-100">Date</th>
-                  <th class="px-4 py-3.5 text-sm font-bold text-left text-gray-800 dark:text-gray-100">Status</th>
-                  <th class="px-4 py-3.5 text-sm font-bold text-left text-gray-800 dark:text-gray-100">Customer</th>
-                  <th class="px-4 py-3.5 text-sm  font-bold text-center text-gray-800 dark:text-gray-100">Total Orders
-                  </th>
-                  <th class="px-4 py-3.5 text-sm font-bold text-left text-gray-800 dark:text-gray-100">Actions</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                <tr *ngFor="let order of paginatedOrders()" class="hover:bg-gray-200 dark:hover:bg-gray-700">
-                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                    #{{ order.orderId }}
-                  </td>
-                  <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                    {{ order.orderDate | date: 'dd-MMM-yyyy hh:mm a' }}
-                  </td>
-                  <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                    <div [ngClass]="statusClass(order.status)"
-                      class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
-                      <svg [innerHTML]="statusIcon(order.status)" class="w-5 h-5"></svg>
-                      <h2 (click)="updateToShipping(order)" class="text-sm font-normal cursor-pointer">{{ order.status
-                        }}</h2>
-                    </div>
-                  </td>
-                  <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                    <h2 class="text-sm font-medium capitalize text-gray-800 dark:text-white">{{ order.firstName }} {{ order.lastName }}</h2>
-                  </td>
-                  <td class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                    {{ order.orderItems.length }}
-                  </td>
-                  <td class="px-4 py-4 text-sm whitespace-nowrap">
-                    <button (click)="openOrderModal(order.orderId)"
-                      class="flex items-center px-3 py-1 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-200 ease-in-out shadow-md">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        class="w-5 h-5 mr-1">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M15 12h.01M12 12h.01M9 12h.01M3 12h18M3 6h18M3 18h18" />
-                      </svg>
-                      <span>View Details</span>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<h2 class="text-2xl font-bold mb-4 dark:text-gray-100">Products</h2>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <div class="py-4 px-4 bg-white dark:bg-gray-900 flex justify-between items-center">
+  </div>
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th class="px-6 py-3">ID</th>
+        <th class="px-6 py-3">Date</th>
+        <th class="px-6 py-3">Status</th>
+        <th class="px-6 py-3">Customer</th>
+        <th class="px-6 py-3">Total Orders
+        </th>
+        <th class="px-6 py-3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of paginatedOrders()"
+        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+        <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+          #{{ order.orderId }}
+        </td>
+        <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+          {{ order.orderDate | date: 'dd-MMM-yyyy hh:mm a' }}
+        </td>
+        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap">
+          <div [ngClass]="statusClass(order.status)" class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+            <svg [innerHTML]="statusIcon(order.status)" class="w-5 h-5"></svg>
+            <h2 (click)="updateToShipping(order)" class="text-sm font-normal cursor-pointer">{{ order.status
+              }}</h2>
           </div>
-        </div>
-      </div>
+        </td>
+        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+          <h2 class="text-sm font-medium capitalize text-gray-800 dark:text-white">{{ order.firstName }} {{
+            order.lastName }}</h2>
+        </td>
+        <td class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+          {{ order.orderItems.length }}
+        </td>
+        <td class="px-6 py-4 text-sm whitespace-nowrap">
+          <button (click)="openOrderModal(order.orderId)"
+            class="flex items-center px-3 py-1 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-200 ease-in-out shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              class="w-5 h-5 mr-1">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12h.01M12 12h.01M9 12h.01M3 12h18M3 6h18M3 18h18" />
+            </svg>
+            <span>View Details</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="flex justify-between items-center p-4">
+    <div class="text-gray-700 dark:text-gray-400">
+      Showing {{ currentPage }} to {{ totalPages() }} products
     </div>
-    <div class="flex items-center justify-between mt-6">
+    <div class="flex space-x-2">
       <button (click)="previousPage()" [disabled]="currentPage === 1"
-        class="px-4 py-2 text-sm bg-white border rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+        class="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300">
         Previous
       </button>
-      <span class="text-sm">Page {{ currentPage }} of {{ totalPages() }}</span>
       <button (click)="nextPage()" [disabled]="currentPage === totalPages()"
-        class="px-4 py-2 text-sm bg-white border rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+        class="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300">
         Next
-      </button>
+      </button> 
     </div>
-  </section>
-  <div *ngIf="selectedOrder" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
-    (click)="closeOrderModal()">
-    <div class="bg-white rounded-lg shadow-lg max-w-2xl w-full p-8 relative space-y-8"
-      (click)="$event.stopPropagation()">
-      <button (click)="closeOrderModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+  </div>
+</div>
+<div *ngIf="selectedOrder" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+  (click)="closeOrderModal()">
+  <div class="bg-white rounded-lg shadow-lg max-w-2xl w-full p-8 relative space-y-8" (click)="$event.stopPropagation()">
+    <button (click)="closeOrderModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl font-semibold">Order Details - ID: {{ selectedOrder.orderId }}</h2>
+      <p class="text-gray-600 text-md">{{ selectedOrder.orderDate | date: 'dd-MMM-yyyy hh:mm a' }}</p>
+    </div>
+    <div class="bg-gray-50 rounded-lg p-4 shadow-inner space-y-4">
       <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-semibold">Order Details - ID: {{ selectedOrder.orderId }}</h2>
-        <p class="text-gray-600 text-md">{{ selectedOrder.orderDate | date: 'dd-MMM-yyyy hh:mm a' }}</p>
+        <p class="text-lg font-medium">Customer: <span class="font-normal capitalize">{{ selectedOrder.firstName }} {{
+            selectedOrder.lastName }}</span>
+        </p>
+        <span [ngClass]="statusClass(selectedOrder.status)" class="flex items-center space-x-2 px-3 py-1 rounded-full">
+          <span [innerHTML]="statusIcon(selectedOrder.status)" class="w-5 h-5"></span>
+          <span class="font-semibold">{{ selectedOrder.status }}</span>
+        </span>
       </div>
-      <div class="bg-gray-50 rounded-lg p-4 shadow-inner space-y-4">
-        <div class="flex items-center justify-between">
-          <p class="text-lg font-medium">Customer: <span class="font-normal capitalize">{{ selectedOrder.firstName }} {{
-              selectedOrder.lastName }}</span>
-          </p>
-          <span [ngClass]="statusClass(selectedOrder.status)"
-            class="flex items-center space-x-2 px-3 py-1 rounded-full">
-            <span [innerHTML]="statusIcon(selectedOrder.status)" class="w-5 h-5"></span>
-            <span class="font-semibold">{{ selectedOrder.status }}</span>
-          </span>
+      <div *ngIf="selectedOrder.phone || selectedOrder.address" class="grid grid-cols-2 gap-4">
+        <div *ngIf="selectedOrder.phone">
+          <p class="text-gray-500 font-medium">Phone:</p>
+          <p class="text-lg">{{ selectedOrder.phone || 'N/A' }}</p>
         </div>
-        <div *ngIf="selectedOrder.phone || selectedOrder.address" class="grid grid-cols-2 gap-4">
-          <div *ngIf="selectedOrder.phone">
-            <p class="text-gray-500 font-medium">Phone:</p>
-            <p class="text-lg">{{ selectedOrder.phone || 'N/A' }}</p>
-          </div>
-          <div *ngIf="selectedOrder.address">
-            <p class="text-gray-500 font-medium">Address:</p>
-            <p class="text-lg">{{ selectedOrder.address || 'N/A' }}</p>
-          </div>
+        <div *ngIf="selectedOrder.address">
+          <p class="text-gray-500 font-medium">Address:</p>
+          <p class="text-lg">{{ selectedOrder.address || 'N/A' }}</p>
         </div>
       </div>
-      <div class="space-y-2">
-        <h3 class="text-xl font-semibold mb-2">Items</h3>
-        <div class="overflow-x-auto">
-          <table class="min-w-full border border-gray-200 rounded-lg">
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="py-2 px-4 text-left border-b">Product</th>
-                <th class="py-2 px-4 text-center border-b">Quantity</th>
-                <th class="py-2 px-4 text-center border-b">Price</th>
-                <th class="py-2 px-4 text-right border-b">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of selectedOrder.orderItems" class="hover:bg-gray-50">
-                <td class="py-2 px-4 border-b">{{ item.productName }}</td>
-                <td class="py-2 px-4 text-center border-b">{{ item.quantity }}</td>
-                <td class="py-2 px-4 text-center border-b">${{ item.price.toFixed(2) }}</td>
-                <td class="py-2 px-4 text-right border-b">${{ (item.quantity * item.price).toFixed(2) }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    </div>
+    <div class="space-y-2">
+      <h3 class="text-xl font-semibold mb-2">Items</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border border-gray-200 rounded-lg">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="py-2 px-4 text-left border-b">Product</th>
+              <th class="py-2 px-4 text-center border-b">Quantity</th>
+              <th class="py-2 px-4 text-center border-b">Price</th>
+              <th class="py-2 px-4 text-right border-b">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of selectedOrder.orderItems" class="hover:bg-gray-50">
+              <td class="py-2 px-4 border-b">{{ item.productName }}</td>
+              <td class="py-2 px-4 text-center border-b">{{ item.quantity }}</td>
+              <td class="py-2 px-4 text-center border-b">${{ item.price.toFixed(2) }}</td>
+              <td class="py-2 px-4 text-right border-b">${{ (item.quantity * item.price).toFixed(2) }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="flex justify-end items-center mt-6">
-        <p class="text-xl font-bold">Total: ${{ totalOrderValue.toFixed(2) }}</p>
-      </div>
-      <div class="flex justify-center mt-6">
-        <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-8 rounded-md font-semibold"
-          (click)="closeOrderModal()">Close
-        </button>
-      </div>
+    </div>
+    <div class="flex justify-end items-center mt-6">
+      <p class="text-xl font-bold">Total: ${{ totalOrderValue.toFixed(2) }}</p>
+    </div>
+    <div class="flex justify-center mt-6">
+      <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-8 rounded-md font-semibold"
+        (click)="closeOrderModal()">Close
+      </button>
     </div>
   </div>
 </div>

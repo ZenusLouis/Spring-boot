@@ -82,7 +82,7 @@
                     <button id="toggleOpen" #toggleOpen class="lg:hidden ml-7">
                     </button>
                     <div *ngIf="isDropdownOpen"
-                        class="absolute right-0 z-50 w-44 mt-7 bg-white dark:bg-gray-800 rounded-md shadow-lg">
+                        class="absolute -right-10 z-50 w-44 mt-7 bg-white dark:bg-gray-800 rounded-md shadow-lg">
                         <a routerLink="/orders" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">My Order</a>
                         <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Profile</a>
                         <a (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Logout</a>

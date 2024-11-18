@@ -27,6 +27,17 @@ export class UserService {
     });
   }
 
+  getUsers(page: number = 0, size: number = 10): Observable<any> {
+    return this.http.get(`${this.userApiUrl}?page=${page}&size=${size}`, {
+      headers: this.getHeaders(),
+      responseType: 'json',
+    });
+  }  
+
+  getTotalUsers(): Observable<number> {
+    return this.http.get<number>(`${this.userApiUrl}/count`, { headers: this.getHeaders() });
+  }
+
   getUserDetails(userId: number): Observable<any> {
     return this.http.get(`${this.userApiUrl}/${userId}`, {
       headers: this.getHeaders(),

@@ -6,7 +6,33 @@
     <p class="mt-4 font-normal text-lg leading-8 text-gray-500 dark:text-gray-400 mb-11 text-center">
       Thanks for making a purchase. You can check your order summary below.
     </p>
-
+    <div class="flex justify-center my-4">
+      <button (click)="filterOrdersByStatus('')" 
+              [ngClass]="{'bg-blue-500 text-white': filterStatus === '', 'bg-gray-300': filterStatus !== ''}" 
+              class="px-4 py-2 rounded mx-1">
+        All
+      </button>
+      <button (click)="filterOrdersByStatus('PENDING')" 
+              [ngClass]="{'bg-blue-500 text-white': filterStatus === 'PENDING', 'bg-gray-300': filterStatus !== 'PENDING'}" 
+              class="px-4 py-2 rounded mx-1">
+        Pending
+      </button>
+      <button (click)="filterOrdersByStatus('SHIPPING')" 
+              [ngClass]="{'bg-blue-500 text-white': filterStatus === 'SHIPPING', 'bg-gray-300': filterStatus !== 'SHIPPING'}" 
+              class="px-4 py-2 rounded mx-1">
+        Shipping
+      </button>
+      <button (click)="filterOrdersByStatus('DELIVERED')" 
+              [ngClass]="{'bg-blue-500 text-white': filterStatus === 'DELIVERED', 'bg-gray-300': filterStatus !== 'DELIVERED'}" 
+              class="px-4 py-2 rounded mx-1">
+        Delivered
+      </button>
+      <button (click)="filterOrdersByStatus('CANCELLED')" 
+              [ngClass]="{'bg-blue-500 text-white': filterStatus === 'CANCELLED', 'bg-gray-300': filterStatus !== 'CANCELLED'}" 
+              class="px-4 py-2 rounded mx-1">
+        Cancelled
+      </button>
+    </div>    
     <!-- Orders List -->
     <div *ngIf="orders.length > 0; else noOrders">
       <div *ngFor="let order of paginatedOrders"

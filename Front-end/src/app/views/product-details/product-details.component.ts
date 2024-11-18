@@ -298,7 +298,6 @@ export class ProductDetailsComponent implements OnInit {
         },
         (error) => {
           console.error('Error reacting to review:', error.error ? error.error.message : error);
-          this.showNotificationMessage("Failed to react to review", 'error');
         }
       );
     }

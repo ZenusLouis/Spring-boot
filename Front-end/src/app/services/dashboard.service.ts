@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { TopProduct } from '../models/order.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,5 +35,9 @@ export class DashboardService {
       headers: this.getAuthHeaders(),
       params: params
     });
+  }
+
+  getTopProducts(): Observable<TopProduct[]> {
+    return this.http.get<TopProduct[]>(`${this.apiUrl}/top-products`, {headers: this.getAuthHeaders(),});
   }
 }

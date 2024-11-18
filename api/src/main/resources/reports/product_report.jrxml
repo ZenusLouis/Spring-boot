@@ -33,9 +33,9 @@
 	<title>
 		<band height="50">
 			<staticText>
-				<reportElement x="0" y="10" width="555" height="30" uuid="b1984962-0a60-4b2b-9a1e-cc8602b9fdcf"/>
-				<textElement textAlignment="Center">
-					<font size="18" isBold="true"/>
+				<reportElement x="0" y="0" width="555" height="40" uuid="b1984962-0a60-4b2b-9a1e-cc8602b9fdcf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Product Report]]></text>
 			</staticText>
@@ -51,8 +51,8 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="5" width="50" height="20" uuid="a1c7a310-7e73-4d86-9356-3c468ae62212"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[ID]]></text>
 			</staticText>
@@ -64,8 +64,8 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="50" y="5" width="100" height="20" uuid="ca372e55-5b41-4810-8e8d-5aa9792d1c88"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Name]]></text>
 			</staticText>
@@ -77,8 +77,8 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="150" y="5" width="100" height="20" uuid="6792fd5a-e0aa-48f5-8552-5d6cd8af339c"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Description]]></text>
 			</staticText>
@@ -90,8 +90,8 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="250" y="5" width="50" height="20" uuid="f4d2578b-4350-480a-9267-17d682b2e24c"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Stock]]></text>
 			</staticText>
@@ -103,8 +103,8 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="300" y="5" width="50" height="20" uuid="140d074e-512d-4071-b318-1eeb655cf9da"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Price]]></text>
 			</staticText>
@@ -116,8 +116,8 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="350" y="5" width="50" height="20" uuid="ababc48e-6be1-44b4-b76d-f1e43e55387c"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Status]]></text>
 			</staticText>
@@ -129,8 +129,8 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="400" y="5" width="80" height="20" uuid="e8628930-5d03-4db5-9d30-6f650c94df6c"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Category]]></text>
 			</staticText>
@@ -142,15 +142,15 @@
 			</rectangle>
 			<staticText>
 				<reportElement x="480" y="5" width="75" height="20" uuid="042b8284-f84b-4ea8-89f0-0dffd05e30bb"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Created At]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
+		<band height="20" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="0" width="50" height="20" uuid="c94292f5-4944-4790-b52c-ba7f67df9787"/>
 				<graphicElement>
@@ -159,7 +159,9 @@
 			</rectangle>
 			<textField>
 				<reportElement x="0" y="0" width="50" height="20" uuid="1c30b9c4-b107-490f-9ee2-a7421eb9c36c"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{pro_id}]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -170,7 +172,9 @@
 			</rectangle>
 			<textField>
 				<reportElement x="50" y="0" width="100" height="20" uuid="4096c9d7-27c6-4cd2-b61d-b6361b313b2c"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{pro_name}]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -181,7 +185,9 @@
 			</rectangle>
 			<textField>
 				<reportElement x="150" y="0" width="100" height="20" uuid="f1aa6343-e1cd-45e2-9426-f858fa926f4d"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{pro_des}]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -192,7 +198,9 @@
 			</rectangle>
 			<textField>
 				<reportElement x="250" y="0" width="50" height="20" uuid="6162cf8f-68d9-42bf-a872-7ef14d7006ab"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{pro_stock}]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -203,7 +211,9 @@
 			</rectangle>
 			<textField>
 				<reportElement x="300" y="0" width="50" height="20" uuid="009c83b6-ad50-4da8-81ba-9fc8612e460a"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{pro_price}]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -214,7 +224,9 @@
 			</rectangle>
 			<textField>
 				<reportElement x="350" y="0" width="50" height="20" uuid="b46a6f23-c974-42b2-ab1e-230ceb67202f"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{pro_status}]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -225,7 +237,9 @@
 			</rectangle>
 			<textField>
 				<reportElement x="400" y="0" width="80" height="20" uuid="010f52bd-3627-4244-affd-f4960a17be66"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -236,7 +250,9 @@
 			</rectangle>
 			<textField pattern="dd/MM/yy HH:mm">
 				<reportElement x="480" y="0" width="75" height="20" uuid="352b58d5-5e5b-426e-8dcb-e992b2838bbf"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Times" pdfEncoding="Cp1258" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yy HH:mm").format($F{createdAt})]]></textFieldExpression>
 			</textField>
 		</band>

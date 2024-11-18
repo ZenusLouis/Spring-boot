@@ -55,6 +55,13 @@ public class CartController {
         }
 
         session.setAttribute("cartItems", cartItems);
+        System.out.println("Session ID: " + session.getId());
+        System.out.println("Current Cart Items:");
+        for (CartItem item : cartItems) {
+            System.out.println("Product ID: " + item.getProductId() +
+                    ", Quantity: " + item.getQuantity() +
+                    ", Price: " + item.getPrice());
+        }
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("cartItems", cartItems);

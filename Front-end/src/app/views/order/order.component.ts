@@ -24,6 +24,7 @@ export class OrderComponent {
   totalPages: number = 0;
   itemsPerPage: number = 9;
   paginatedOrders: any[] = [];
+  filterStatus: string = '';
 
   constructor(
     private orderService: OrderService,
@@ -32,11 +33,13 @@ export class OrderComponent {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.currentPage = +params['page'] || 1;
+      this.filterStatus = params['filter'] || '';
+  
       const orderId = +params['orderId'];
       if (orderId) {
         this.viewOrderDetails(orderId);
@@ -44,18 +47,23 @@ export class OrderComponent {
         this.loadUserOrders();
       }
     });
-  }
+  }  
 
   loadUserOrders() {
     this.orderService.getUserOrders(this.userId).subscribe(
       data => {
         this.orders = data;
+  
+        if (this.filterStatus) {
+          this.orders = this.orders.filter(order => order.status === this.filterStatus);
+        }
+  
         this.totalPages = Math.ceil(this.orders.length / this.itemsPerPage);
         this.updatePaginatedOrders();
       },
       error => console.error('Error loading user orders:', error)
     );
-  }
+  }  
 
   viewOrderDetails(orderId: number) {
     this.router.navigate([], {
@@ -75,7 +83,19 @@ export class OrderComponent {
       error => console.error('Error loading order details:', error)
     );
   }
-
+  filterOrdersByStatus(status: string) {
+    this.filterStatus = status;
+    this.currentPage = 1;
+    this.updateFilterParams();
+    this.loadUserOrders();
+  }
+  
+  updateFilterParams(): void {
+    this.router.navigate([], {
+      queryParams: { filter: this.filterStatus, page: this.currentPage },
+      queryParamsHandling: 'merge',
+    });
+  }
   loadUserDetailsById(userId: number) {
     this.userService.getUserDetails(userId).subscribe(
       userData => {

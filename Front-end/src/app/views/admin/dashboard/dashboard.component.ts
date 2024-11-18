@@ -1,9 +1,11 @@
+import { UserService } from './../../../services/user.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { DashboardService } from '../../../services/dashboard.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tween, Easing } from '@tweenjs/tween.js';
 import { Chart, registerables } from 'chart.js';
+import { TopProduct } from '../../../models/order.model';
 Chart.register(...registerables);
 
 @Component({
@@ -16,11 +18,14 @@ export class DashboardComponent implements OnInit {
   productCount: number = 0;
   categoryCount: number = 0;
   income: number = 0;
+  totalUsers: number = 0;
   animatedProductCount = 0;
   animatedCategoryCount = 0;
   animatedIncome = 0;
+  animatedUserCount = 0;
   orderCountByStatus = { PENDING: 0, SHIPPED: 0, DELIVERED: 0, CANCELLED: 0 };
-
+  topProducts: TopProduct[] = [];
+  
   @ViewChild('myChart') myChart!: ElementRef;
   chart: any;
 
@@ -31,11 +36,13 @@ export class DashboardComponent implements OnInit {
   monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadStatistics();
     this.loadChartData();
+    this.loadTotalUsers()
+    this.loadTopProducts();
   }
 
   loadStatistics(): void {
@@ -71,6 +78,13 @@ export class DashboardComponent implements OnInit {
     this.loadChartData();
   }
 
+  loadTotalUsers(): void {
+    this.userService.getTotalUsers().subscribe((total) => {
+      this.totalUsers = total;
+      this.animateValue('animatedUserCount', this.totalUsers);
+    });
+  }
+
   loadChartData(): void {
     const viewType = this.viewType;
     let month: string | undefined;
@@ -96,6 +110,12 @@ export class DashboardComponent implements OnInit {
         this.renderChart(Object.keys(dailyData), Object.values(dailyData));
       }
     });
+  }
+  loadTopProducts(): void {
+    this.dashboardService.getTopProducts().subscribe(
+      (data: TopProduct[]) => this.topProducts = data,
+      error => console.error('Error fetching top products:', error)
+    );
   }
 
   renderChart(labels: string[], data: number[]): void {

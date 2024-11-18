@@ -1,0 +1,74 @@
+<section class="bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-300 h-screen px-6 py-4">
+    <div class="flex flex-col h-full">
+        <!-- Table -->
+        <div class="w-full max-w-6xl mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700">
+            <header class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="font-semibold text-gray-800 dark:text-gray-100 text-xl">User Contact Messages</h2>
+            </header>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full table-auto text-sm text-gray-600 dark:text-gray-300">
+                        <thead class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th class="p-4 text-left">Message ID</th>
+                                <th class="p-4 text-left">User Email</th>
+                                <th class="p-4 text-left">Message</th>
+                                <th class="p-4 text-left">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr *ngFor="let contact of contacts" class="hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200">
+                                <td class="p-4">{{ contact.id }}</td>
+                                <td class="p-4 font-medium">{{ contact.userEmail }}</td>
+                                <td class="p-4">{{ contact.message | slice: 0:30 }}...</td>
+                                <td class="p-4">
+                                    <button (click)="viewMessage(contact)" class="text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 flex items-center space-x-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3M5 12h14"></path>
+                                        </svg>
+                                        <span>View</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-6">
+                    <button class="bg-blue-500 dark:bg-blue-600 text-white px-6 py-2 rounded-lg disabled:opacity-50" [disabled]="page === 0"
+                        (click)="goToPreviousPage()">Previous</button>
+                    <span class="text-gray-600 dark:text-gray-300 text-sm">Page {{ page + 1 }} of {{ totalPages }}</span>
+                    <button class="bg-blue-500 dark:bg-blue-600 text-white px-6 py-2 rounded-lg disabled:opacity-50"
+                        [disabled]="page >= totalPages - 1" (click)="goToNextPage()">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div *ngIf="selectedContact" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-lg w-full shadow-lg transform transition duration-300 ease-in-out">
+        <h3 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100">Message Details</h3>
+        <div class="mb-6 space-y-4">
+            <div class="flex justify-between">
+                <p class="font-medium text-gray-600 dark:text-gray-400"><strong>User Email:</strong> {{ selectedContact.userEmail }}</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="font-medium text-gray-600 dark:text-gray-400"><strong>Message:</strong></p>
+            </div>
+            <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                <p class="text-gray-700 dark:text-gray-300">{{ selectedContact.message }}</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="font-medium text-gray-600 dark:text-gray-400"><strong>User Username:</strong> {{ selectedContact.username }}</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="font-medium text-gray-600 dark:text-gray-400"><strong>First Name:</strong> {{ selectedContact.firstName }}</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="font-medium text-gray-600 dark:text-gray-400"><strong>Last Name:</strong> {{ selectedContact.lastName }}</p>
+            </div>
+        </div>
+        <div class="flex justify-end mt-4">
+            <button (click)="closeModal()" class="bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-lg">Close</button>
+        </div>
+    </div>
+</div>

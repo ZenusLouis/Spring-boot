@@ -1,0 +1,55 @@
+spring.application.name=keycloak
+
+# Database connection to PostgreSQL
+spring.datasource.url=jdbc:postgresql://localhost:5432/db_name
+spring.datasource.username=db_username
+spring.datasource.password=db_password
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Hibernate settings
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# Keycloak Settings
+keycloak.auth-server-url=url_keycloak
+keycloak.realm=keycloak_realm
+keycloak.grant-type=password
+
+# JWT and Security Settings for Keycloak Integration
+spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8080/realms/{realm_name}/protocol/openid-connect/certs
+spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8080/realms/{realm_name}
+
+# Application port
+server.port=8081
+
+# Serve the 'uploads' directory from the root URL path
+spring.web.resources.static-locations=file:uploads/
+keycloak.security-constraints[0].authRoles[0]=*
+keycloak.security-constraints[0].securityCollections[0].patterns[0]=/api/images/*
+
+# Camunda setting
+camunda.bpm.default-serialization-format=application/json
+camunda.bpm.admin-user.id=camunda_username
+camunda.bpm.admin-user.password=camunda_password
+camunda.bpm.webapp.index-redirect-enabled=true
+camunda.bpm.enforce-ttl=false
+camunda.bpm.default-history-time-to-live=180
+camunda.bpm.enabled=true
+camunda.bpm.database.type=database
+camunda.bpm.authorization.enabled=false
+camunda.bpm.auto-deployment-enabled=true
+camunda.bpm.job-execution.enabled=true
+
+# application.properties
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# Mail
+# Reference: https://www.geeksforgeeks.org/spring-boot-sending-email-via-smtp/
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=email_default_server
+spring.mail.password=AppPassword
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true

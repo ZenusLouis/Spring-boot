@@ -2,7 +2,9 @@ package com.example.keycloak.controller;
 
 import com.example.keycloak.repository.OrderRepository;
 import com.example.keycloak.service.DashboardService;
+import com.example.keycloak.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +23,8 @@ public class DashboardController {
     private DashboardService dashboardService;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/stats")
     public Map<String, Object> getDashboardStatistics() {
@@ -61,6 +65,7 @@ public class DashboardController {
 
         return stats;
     }
+
     private Integer convertMonthToNumber(String monthName) {
         Map<String, Integer> monthMap = new HashMap<>();
         monthMap.put("January", 1);
@@ -134,5 +139,12 @@ public class DashboardController {
         }
 
         return dailyIncome;
+    }
+
+
+    @GetMapping("/top-products")
+    public ResponseEntity<List<Map<String, Object>>> getTopProductsByOrderCount() {
+        List<Map<String, Object>> topProducts = orderService.getTopProductsByOrderCount();
+        return ResponseEntity.ok(topProducts);
     }
 }
