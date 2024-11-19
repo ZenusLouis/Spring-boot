@@ -250,8 +250,7 @@ Keycloak integrates with a custom PostgreSQL database through the `custom-provid
       "email": "john@example.com",
       "realm_access": {
         "roles": ["user", "admin"]
-      },
-      "exp": 1700000000
+      }
     }
     ```
 
@@ -304,7 +303,6 @@ Keycloak integrates with a custom PostgreSQL database through the `custom-provid
      ```
      Authorization: Bearer eyJhbGciOiJIUzI1...
      ```
-
 ---
 
 ## **Advantages of Using Keycloak with a Custom Provider**
@@ -322,8 +320,6 @@ Keycloak integrates with a custom PostgreSQL database through the `custom-provid
 
 5. **Scalability**:
    - The setup can handle complex user and role structures across multiple services.
-
----
 
 ---
 
