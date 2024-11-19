@@ -39,22 +39,4 @@ public class Reply {
     protected void onCreate() {
         this.createdAt = new Date();
     }
-
-    @Column(name = "like_count", nullable = false, columnDefinition = "int default 0")
-    int likeCount;
-
-    @Column(name = "love_count", nullable = false, columnDefinition = "int default 0")
-    int loveCount;
-
-    @Column(name = "haha_count", nullable = false, columnDefinition = "int default 0")
-    int hahaCount;
-
-    @Column(name = "wow_count", nullable = false, columnDefinition = "int default 0")
-    int wowCount;
-
-    @Column(name = "sad_count", nullable = false, columnDefinition = "int default 0")
-    int sadCount;
-
-    @Column(name = "angry_count", nullable = false, columnDefinition = "int default 0")
-    int angryCount;
 }

@@ -20,7 +20,8 @@
 		<![CDATA[SELECT p.pro_id, p.pro_name, p.pro_des, p.pro_stock, p.pro_price,
                    p.pro_status, p.created_at AS createdAt, c.cate_name AS category_name
             FROM Products p
-            JOIN Categories c ON p.cate_id = c.cate_id]]>
+            JOIN Categories c ON p.cate_id = c.cate_id
+            WHERE p.cate_id = 3]]>
 	</queryString>
 	<field name="pro_id" class="java.lang.Long"/>
 	<field name="pro_name" class="java.lang.String"/>

@@ -96,16 +96,6 @@ public class ReviewService {
         reaction.setUser(user);
         reactionRepository.save(reaction);
 
-        // Update count based on reaction type
-        switch (reaction.getReactionType()) {
-            case LIKE -> reply.setLikeCount(reply.getLikeCount() + 1);
-            case LOVE -> reply.setLoveCount(reply.getLoveCount() + 1);
-            case HAHA -> reply.setHahaCount(reply.getHahaCount() + 1);
-            case WOW -> reply.setWowCount(reply.getWowCount() + 1);
-            case SAD -> reply.setSadCount(reply.getSadCount() + 1);
-            case ANGRY -> reply.setAngryCount(reply.getAngryCount() + 1);
-        }
-
         replyRepository.save(reply);
         return reaction;
     }
